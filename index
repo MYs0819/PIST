@@ -597,25 +597,25 @@
     <div>勞工體格檢查報告</div>
     <label class="file-input">
       <span class="file-btn">選擇檔案</span>
-      <input id="idBack" type="file" accept=".pdf,image/*" />
+      <input id="idLaborCheck" type="file" accept=".pdf,image/*" />  <!-- 修改id -->
     </label>
-    <div class="file-name" id="nameBack">
-      <img class="thumb" id="thumbBack" alt="縮圖預覽"><span id="nameBackTxt">尚未選取檔案</span>
+    <div class="file-name" id="nameLaborCheck">
+      <img class="thumb" id="thumbLaborCheck" alt="縮圖預覽"><span id="nameLaborCheckTxt">尚未選取檔案</span>
     </div>
   </div>
-  <div class="error" id="errBack">⚠️ 請選擇勞工體格檢查報告檔案</div>
+  <div class="error" id="errLaborCheck">⚠️ 請選擇勞工體格檢查報告檔案</div>
 
   <div class="file-row">
     <div>食品從業人員體檢報告</div>
     <label class="file-input">
       <span class="file-btn">選擇檔案</span>
-      <input id="idBack" type="file" accept=".pdf,image/*" />
+      <input id="idFoodCheck" type="file" accept=".pdf,image/*" />  <!-- 修改id -->
     </label>
-    <div class="file-name" id="nameBack">
-      <img class="thumb" id="thumbBack" alt="縮圖預覽"><span id="nameBackTxt">尚未選取檔案</span>
+    <div class="file-name" id="nameFoodCheck">
+      <img class="thumb" id="thumbFoodCheck" alt="縮圖預覽"><span id="nameFoodCheckTxt">尚未選取檔案</span>
     </div>
   </div>
-  <div class="error" id="errBack">⚠️ 請選擇食品從業人員體檢報告檔案</div>
+  <div class="error" id="errFoodCheck">⚠️ 請選擇食品從業人員體檢報告檔案</div>
 
   <div class="fieldset">
     <div class="checks">
@@ -721,45 +721,56 @@
 
 /* --------系統常數（可調）-------- */
 const TOTAL_STEPS = 13;  /* 總頁數（顯示用；更新為 13） */
-const $  = (sel) => document.querySelector(sel);
+const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => document.querySelectorAll(sel);
 
 /* 表單時間戳（建立/更新） */
 const FORM_META = { createdAt: null, updatedAt: null };
-function fmtTW(d){
-  try{
-    return new Intl.DateTimeFormat('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,timeZone:'Asia/Taipei'}).format(d);
-  }catch(e){ return d.toLocaleString(); }
-}
-function setCreatedNow(){ if(!FORM_META.createdAt){ FORM_META.createdAt = new Date(); updateStampUI(); } }
-function setUpdatedNow(){ FORM_META.updatedAt = new Date(); updateStampUI(); }
-function updateStampUI(){
-  const c = $("#stampCreated"), u = $("#stampUpdated");
-  if(c){ c.textContent = FORM_META.createdAt ? fmtTW(FORM_META.createdAt) : "—"; }
-  if(u){ u.textContent = FORM_META.updatedAt ? fmtTW(FORM_META.updatedAt) : "—"; }
+function fmtTW(d) {
+  try {
+    return new Intl.DateTimeFormat('zh-TW', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'Asia/Taipei' }).format(d);
+  } catch (e) {
+    return d.toLocaleString();
+  }
 }
 
-/* ====== 密碼進入遮罩-動態多組密碼 ====== */
-/* 密碼進入遮罩 - 密碼組設定 */
+function setCreatedNow() {
+  if (!FORM_META.createdAt) {
+    FORM_META.createdAt = new Date();
+    updateStampUI();
+  }
+}
+
+function setUpdatedNow() {
+  FORM_META.updatedAt = new Date();
+  updateStampUI();
+}
+
+function updateStampUI() {
+  const c = $("#stampCreated"), u = $("#stampUpdated");
+  if (c) { c.textContent = FORM_META.createdAt ? fmtTW(FORM_META.createdAt) : "—"; }
+  if (u) { u.textContent = FORM_META.updatedAt ? fmtTW(FORM_META.updatedAt) : "—"; }
+}
+
+/* ====== 密碼進入遮罩 ====== */
 const PASSWORDS = ["MYsDC20251115", "MYsFZ20251115", "MYsSC20251115"];
-const ACCESS_PWD = PASSWORDS[0]; // 設定為當前使用的密碼（默認是第一組）
-(function passGateInit(){
+(function passGateInit() {
   const gate = $("#passGate"), pwd = $("#gatePwd"), btn = $("#gatePwdStart"), err = $("#gatePwdErr");
   const togglePwdButton = $("#togglePwdVisibility");
-  
+
   if (!gate) return;
-  
+
   let isPasswordVisible = false;
   togglePwdButton.addEventListener("click", () => {
     isPasswordVisible = !isPasswordVisible;
-    pwd.type = isPasswordVisible ? "text" : "password"; 
-    togglePwdButton.textContent = isPasswordVisible ? "隱藏密碼" : "顯示密碼"; 
+    pwd.type = isPasswordVisible ? "text" : "password";
+    togglePwdButton.textContent = isPasswordVisible ? "隱藏密碼" : "顯示密碼";
   });
 
   err.style.display = "none";
   btn.addEventListener("click", () => {
     const v = (pwd.value || "").trim().toLowerCase();
-    const isValid = PASSWORDS.some(pwd => pwd.toLowerCase() === v); 
+    const isValid = PASSWORDS.some(pwd => pwd.toLowerCase() === v);
     if (!isValid) {
       err.style.display = "block";
       return;
@@ -772,16 +783,18 @@ const ACCESS_PWD = PASSWORDS[0]; // 設定為當前使用的密碼（默認是�
 })();
 
 /* ====== 鍵盤與縮放控制（iOS） ====== */
-(function keyboardLift(){
+(function keyboardLift() {
   const vv = window.visualViewport;
-  if(!vv) return;
-  function apply(){
+  if (!vv) return;
+
+  function apply() {
     const bottomInset = (window.innerHeight - vv.height - vv.offsetTop);
-    document.documentElement.style.setProperty('--kv-offset', bottomInset>0 ? `${bottomInset}px` : '0px');
-    if(bottomInset > 80){ document.body.classList.add('kb-open'); }
+    document.documentElement.style.setProperty('--kv-offset', bottomInset > 0 ? `${bottomInset}px` : '0px');
+    if (bottomInset > 80) { document.body.classList.add('kb-open'); }
     else { document.body.classList.remove('kb-open'); }
     autoFitActionbarHeight();
   }
+
   vv.addEventListener('resize', apply);
   vv.addEventListener('scroll', apply);
   window.addEventListener('resize', apply);
@@ -789,124 +802,55 @@ const ACCESS_PWD = PASSWORDS[0]; // 設定為當前使用的密碼（默認是�
 })();
 
 /* 焦點自動可視（避免被鍵盤或操作列擋住） */
-(function focusAutoScroll(){
-  document.addEventListener('focusin', (e)=>{
+(function focusAutoScroll() {
+  document.addEventListener('focusin', (e) => {
     const el = e.target;
-    if(!(el instanceof HTMLInputElement) && !(el instanceof HTMLSelectElement)) return;
-    setTimeout(()=>{ el.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 50);
+    if (!(el instanceof HTMLInputElement) && !(el instanceof HTMLSelectElement)) return;
+    setTimeout(() => { el.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 50);
   });
 })();
 
-/* ====== 驗證工具 ====== */
-function isValidYMD(str){
-  if(!/^\d{4}-\d{2}-\d{2}$/.test(str)) return false;
-  const [y,m,d]=str.split("-").map(n=>parseInt(n,10));
-  const dt = new Date(y, m-1, d);
-  return dt.getFullYear()===y && (dt.getMonth()+1)===m && dt.getDate()===d;
-}
-function isTenAlnum(s){ return /^[A-Za-z0-9]{10}$/.test(s); }
-function isValidMobile(s){ return /^09\d{2}-\d{3}-\d{3}$/.test(s); }
-function isValidWageStrict(s){
-  if(!s) return false;
-  if(/^\d+$/.test(s)) return parseInt(s,10)>0;
-  if(/^\d{1,3}(,\d{3})+$/.test(s)) return true;
-  return false;
-}
-function isValidRoc7(str){
-  if(!/^\d{7}$/.test(str)) return false;
-  const y = parseInt(str.slice(0,3),10) + 1911;
-  const m = parseInt(str.slice(3,5),10);
-  const d = parseInt(str.slice(5,7),10);
-  const dt = new Date(y, m-1, d);
-  return dt.getFullYear()===y && (dt.getMonth()+1)===m && dt.getDate()===d;
-}
-
-/* 前綴即時檢查 */
-function mobilePrefixOK(v){
-  const len = v.length;
-  for(let i=0;i<len;i++){
-    const ch = v[i];
-    if(i===0){ if(ch!=='0') return false; continue; }
-    if(i===1){ if(ch!=='9') return false; continue; }
-    if(i===4 || i===8){ if(ch!=='-') return false; continue; }
-    if(i!==4 && i!==8){ if(ch<'0' || ch>'9') return false; }
-  }
-  return true;
-}
-function ymdPrefixOK(v){
-  for(let i=0;i<v.length;i++){
-    const ch = v[i];
-    if(i===4 || i===7){ if(ch!=='-') return false; }
-    else { if(ch<'0' || ch>'9') return false; }
-  }
-  return true;
-}
-function wagePrefixOK(v){
-  if(v==="" ) return true;
-  if(!/^[\d,]+$/.test(v)) return false;
-  const parts = v.split(",");
-  if(parts[0].length<1 || parts[0].length>3 || !/^\d+$/.test(parts[0])) return false;
-  for(let i=1;i<parts.length;i++){
-    const seg = parts[i];
-    if(i < parts.length-1){ if(!/^\d{3}$/.test(seg)) return false; }
-    else{ if(!/^\d{0,3}$/.test(seg)) return false; }
-  }
-  return true;
-}
-function alnumPrefixOK(v, max){ return v.length<=max && /^[A-Za-z0-9]*$/.test(v); }
-function digitsPrefixOK(v, max){ return v.length<=max && /^\d*$/.test(v); }
-
-/* 觸碰狀態（touched）與延後顯示錯誤邏輯 */
-const TOUCHED = Object.create(null);
-function markTouched(id){ if(id) TOUCHED[id] = true; }
-function shouldShowErr(id, submit){ return !!submit || !!TOUCHED[id]; }
-
 /* ====== 步驟顯示與背景配色 ====== */
 let currentPage = 1;
-let IS_LOCKED = false; /* 完成或最後頁進入後鎖定 */
-function pad2(n){ return String(n).padStart(2,'0'); }
+let IS_LOCKED = false;
+function pad2(n) { return String(n).padStart(2, '0'); }
 
-/* 指定頁為紫色：1,2,3,4,7,10；其餘黑色 */
-function pageIsPurple(n){ return [1,2,3,4,7,10].includes(n); }
+/* 指定頁為紫色：1, 2, 3, 4, 7, 10；其餘黑色 */
+function pageIsPurple(n) { return [1, 2, 3, 4, 7, 10].includes(n); }
 
-function updateHeaderStep(){
+function updateHeaderStep() {
   $("#headerStep").textContent = `第${pad2(currentPage)}頁/共${TOTAL_STEPS}頁`;
   const scheme = pageIsPurple(currentPage) ? "purple" : "black";
   $(".container").setAttribute("data-scheme", scheme);
 }
 
-function lockAllAndHideNav(){
+function lockAllAndHideNav() {
   IS_LOCKED = true;
-  // 停用所有可互動元素
-  document.querySelectorAll('input, select, button, textarea').forEach(el=>{
-    el.disabled = true;
-  });
-  // 導航按鈕隱藏（最後一頁不要上一頁/完成）
-  const prev=$("#btnPrev"), next=$("#btnNext"), fin=$("#btnFinish");
-  if(prev){ prev.style.display="none"; }
-  if(next){ next.style.display="none"; }
-  if(fin){ fin.style.display="none"; }
+  document.querySelectorAll('input, select, button, textarea').forEach(el => { el.disabled = true; });
+  const prev = $("#btnPrev"), next = $("#btnNext"), fin = $("#btnFinish");
+  if (prev) { prev.style.display = "none"; }
+  if (next) { next.style.display = "none"; }
+  if (fin) { fin.style.display = "none"; }
 }
 
-function showStep(pageNumber){
-  if(IS_LOCKED && pageNumber!==TOTAL_STEPS) return; /* 鎖定後不可離開完成頁 */
-  $$(".step").forEach(s=>s.classList.remove("active"));
+function showStep(pageNumber) {
+  if (IS_LOCKED && pageNumber !== TOTAL_STEPS) return;
+  $$(".step").forEach(s => s.classList.remove("active"));
   const el = document.getElementById(`step-${pageNumber}`);
-  if(el) el.classList.add("active");
+  if (el) el.classList.add("active");
   currentPage = pageNumber;
   updateHeaderStep();
   $("#content").scrollTo({ top: 0, behavior: "instant" });
   updateNavState();
 
-  /* 到最後一頁即自動鎖定、隱藏上一頁與完成 */
-  if(pageNumber===TOTAL_STEPS){
+  if (pageNumber === TOTAL_STEPS) {
     setUpdatedNow();
-    // 等一個 event loop 讓畫面切到最後頁，再鎖定
-    setTimeout(()=>{ lockAllAndHideNav(); updateNavState(); }, 0);
+    setTimeout(() => { lockAllAndHideNav(); updateNavState(); }, 0);
   }
 }
+</script>
 
-* ====== 各頁驗證（submit=false：不顯示紅字；true：顯示紅字） ====== */
+/* ====== 各頁驗證（submit=false：不顯示紅字；true：顯示紅字） ====== */
 function validatePage(n, submit=false){
   switch(n){
     case 1: {  // 第1頁：同意事項
