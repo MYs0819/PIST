@@ -277,6 +277,15 @@
   .step[data-page="7"]{ --title-size: 15px; --content-size: 12px; }
   .step[data-page="8"]{ --title-size: 15px; --content-size: 12px; }
 
+    /* 指定頁 h2 置右（1=注意事項、2=FAQ-薪資轉帳相關、3=FAQ-體健檢報告相關、4=報到文件用途說、7=資料送出前-核檢區） */
+.step[data-page="1"] h2,
+.step[data-page="2"] h2,
+.step[data-page="3"] h2,
+.step[data-page="4"] h2,
+.step[data-page="7"] h2,
+  text-align: left !important;
+}
+
   /* 第04頁：範例圖片改上下 */ 
   #step-4 .samples {
   display: grid;
@@ -814,13 +823,13 @@ function validatePage(n, submit=false){
 
     /* ------ 第3頁（繳交文件） ------ */
     case 3: {
-      const chk1 = $("#chk1")?.checked;
-      const chk2 = $("#chk2")?.checked;
-      const chk3 = $("#chk3")?.checked;
-      const chk4 = $("#chk4")?.checked;
-      const chk5 = $("#chk5")?.checked;
-      return chk1 && chk2 && chk3 && chk4 && chk5;
-    }
+  const step3 = document.querySelector("#step-3");
+
+  const allChecked = [...step3.querySelectorAll('input[type="checkbox"]')]
+    .every(cb => cb.checked);
+
+  return allChecked;
+}
 
     /* ------ 第4頁（上傳檔案同意） ------ */
     case 4: {
