@@ -264,7 +264,7 @@
     transform: translateY(calc(-1 * var(--kv-offset)));
   }
 
-  /* footer Logo（固定 px 商標） */
+  /* footer Logo商標；版權  */
   .footer-logo {
     height: 25px;       /* 想改大小可以改這裡px */
     width: auto;
@@ -656,10 +656,11 @@
         <button class="btn btn--nav" id="btnNext" type="button">下一頁</button>
       </div>
     </div>
-
+    
+　　<!-- 商標；版權 -->
     <footer class="footer" id="footer">
       <img src="assets/MYs_logo_去背1.png" alt="MYs Logo" class="footer-logo">
-      © Copyright 2025 MYs System
+      ︳© Copyright 2025 MYs System-b1.0.0.11.19-2025
     </footer>
   </div>
 
@@ -774,8 +775,8 @@ let currentPage = 1;
 let IS_LOCKED = false;
 function pad2(n) { return String(n).padStart(2, '0'); }
 
-/* 指定頁為紫色：1, 2, 3, 4 ；其餘黑色 */
-function pageIsPurple(n) { return [1, 2, 3, 4].includes(n); }
+/* 指定頁為紫色：1, 2, 3, 4, ５ ；其餘黑色 */
+function pageIsPurple(n) { return [1, 2, 3, 4, ５].includes(n); }
 
 function updateHeaderStep() {
   $("#headerStep").textContent = `第${pad2(currentPage)}頁/共${TOTAL_STEPS}頁`;
@@ -809,6 +810,50 @@ function showStep(pageNumber) {
   }
 }
 
+/* ====== 第 5 頁圖片縮小（恢復小圖片） ====== */
+document.querySelectorAll("#step-5 .sample-img").forEach((img) => {
+  img.style.maxHeight = "160px";
+  img.style.objectFit = "contain";
+});
+
+/* ====== 第 6 頁檔案預覽（PDF、圖片皆可） ====== */
+function bindFilePreview(inputId, txtId, thumbId) {
+  const input = $(inputId);
+  const txt = $(txtId);
+  const thumb = $(thumbId);
+
+  input?.addEventListener("change", () => {
+    const file = input.files[0];
+
+    if (!file) {
+      txt.textContent = "尚未選取檔案";
+      thumb.style.display = "none";
+      thumb.src = "";
+      return;
+    }
+
+    txt.textContent = file.name;
+
+    if (file.type === "application/pdf") {
+      thumb.src =
+        "https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg";
+      thumb.style.display = "block";
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      thumb.src = e.target.result;
+      thumb.style.display = "block";
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+bindFilePreview("#idFront", "#nameFrontTxt", "#thumbFront");
+bindFilePreview("#idLaborCheck", "#nameLaborCheckTxt", "#thumbLaborCheck");
+bindFilePreview("#idFoodCheck", "#nameFoodCheckTxt", "#thumbFoodCheck");
+  
 /* ====== 各頁驗證（submit=false：不顯示紅字；true：顯示紅字） ====== */
 function validatePage(n, submit=false){
   switch(n){
@@ -817,9 +862,7 @@ function validatePage(n, submit=false){
     case 1: {
       const yes = $('input[name="agree1"][value="yes"]')?.checked;
       const no  = $('input[name="agree1"][value="no"]')?.checked;
-
       $("#exitMsg1").classList.toggle("show", !!no);
-
       return !!yes;
     }
 
@@ -827,9 +870,7 @@ function validatePage(n, submit=false){
     case 2: {
       const yes = $('input[name="agree2"][value="yes"]')?.checked;
       const no  = $('input[name="agree2"][value="no"]')?.checked;
-
       $("#exitMsg2").classList.toggle("show", !!no);
-
       return !!yes;
     }
 
@@ -839,72 +880,54 @@ function validatePage(n, submit=false){
     }
 
     /* ------ 第4頁：報到日必要繳交五大文件（需 5 個都打勾） ------ */
-    case 4: {
-      const step4 = document.querySelector("#step-4");
-      if (!step4) return false;
-
-      const allChecked = [...step4.querySelectorAll('input[type="checkbox"]')]
-        .every(cb => cb.checked);
-
-      return allChecked;
-    }
+    case 4:
+      return [...$("#step-4").querySelectorAll("input[type=checkbox]")].every(
+        (c) => c.checked
+      );
 
     /* ------ 第5頁：上傳檔案同意（需同意才可下一步） ------ */
     case 5: {
-      const yes = $('input[name="agreeUpload"][value="yes"]')?.checked;
-      const no  = $('input[name="agreeUpload"][value="no"]')?.checked;
+      const yes = $(`input[name="agreeUpload"][value="yes"]`).checked;
+      const no = $(`input[name="agreeUpload"][value="no"]`).checked;
 
-      if (!yes && submit) {
-        $("#errAgreeUpload").style.display = "block";
-      } else {
-        $("#errAgreeUpload").style.display = "none";
-      }
-
-      /* 只有 yes 才視為通過 */
-      if (no && submit) {
-        $("#errAgreeUpload").style.display = "block";
-      }
+      if (!yes && submit) $("#errAgreeUpload").style.display = "block";
+      if (yes) $("#errAgreeUpload").style.display = "none";
+      return yes;
+    }
 
       return !!yes;
     }
 
     /* ------ 第6頁：上傳檔案（勞工體檢＋食品體檢必上傳） ------ */
     case 6: {
-      const f1 = $("#idFront")?.files?.length > 0;        // 台新 → 非必填
-      const f2 = $("#idLaborCheck")?.files?.length > 0;   // 勞工體檢 → 必填
-      const f3 = $("#idFoodCheck")?.files?.length > 0;    // 食品體檢 → 必填
-
-      $("#errFront").style.display = "none";  // 不強制
-
-      $("#errLaborCheck").style.display = (!f2 && submit) ? "block" : "none";
-      $("#errFoodCheck").style.display   = (!f3 && submit) ? "block" : "none";
-
-      return f2 && f3;
+      const labor = $("#idLaborCheck").files.length > 0;
+      const food = $("#idFoodCheck").files.length > 0;
+      const checks = ["#fileChk1", "#fileChk2", "#fileChk3", "#fileChk4"].every(
+        (id) => $(id).checked
+      );
+      $("#errLaborCheck").style.display = !labor && submit ? "block" : "none";
+      $("#errFoodCheck").style.display = !food && submit ? "block" : "none";
+      return labor && food && checks;
     }
 
     /* ------ 第7頁：基本資料 ------ */
     case 7: {
-      const companyInvalid  = $("#company").value.trim() === "";
-      const teamInvalid     = $("#team").value === "";
-      const workTypeInvalid = $("#workType").value === "";
-
-      $("#errcompany").style.display = companyInvalid  && submit ? "block" : "none";
-      $("#errTeam").style.display    = teamInvalid     && submit ? "block" : "none";
-      $("#errWorkType").style.display= workTypeInvalid&& submit ? "block" : "none";
-
-      return !(companyInvalid || teamInvalid || workTypeInvalid);
-    }
+      const a = $("#company").value !== "";
+      const b = $("#team").value !== "";
+      const c = $("#workType").value !== "";
+      if (submit) {
+        $("#errcompany").style.display = !a ? "block" : "none";
+        $("#errTeam").style.display = !b ? "block" : "none";
+        $("#errWorkType").style.display = !c ? "block" : "none";
+      }
+      return a && b && c;
+    }}
 
     /* ------ 第8頁：核檢 6 項 ------ */
-    case 8: {
-      const all = ["#preA","#preB","#preC","#preD","#preE","#preF"]
-        .every(sel => $(sel)?.checked);
-
-      const btnSubmit = $("#btnSubmit");
-      if (btnSubmit) btnSubmit.disabled = !all;
-
-      return all;
-    }
+    case 8:
+      return ["#preA", "#preB", "#preC", "#preD", "#preE", "#preF"].every(
+        (id) => $(id).checked
+      );
 
     /* ------ 第9頁：完成頁 ------ */
     case 9:
@@ -933,14 +956,6 @@ function updateNavState(){
 
   /* 預設：不通過就不能下一頁 */
   let disabled = IS_LOCKED || !validNow;
-
-  /* 特例：第5頁「上傳檔案同意」要能按下去才顯示錯誤，所以不先鎖住按鈕 */
-  if (currentPage === 5 && !IS_LOCKED) {
-    disabled = false;
-  }
-
-  btnNext.disabled = disabled;
-}
 
 /* 清除當頁（目前沒有按鈕呼叫，函式保留） */
 function clearCurrentPage(){
