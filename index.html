@@ -24,7 +24,7 @@
     --content-size: 12px;       /* 內文/表單基準字級（可調；每頁可覆蓋） */
     --footer-size: 11px;        /* 頁尾字級（可調） */
 
-    /*//* --------全域字級控制變數（可自行調整；新增）--------*/*/
+    /*//* --------全域字級控制變數（可自行調整）--------*/*/
     --label-size: 13px;         /* 欄位標題字級（例如：公司名稱；可調） */
     --hint-size: 10px;          /* 小字提示（label small；可調） */
     --input-size: 12px;         /* 輸入框/選單內文字字級（可調） */
@@ -60,7 +60,7 @@
     /* 面板背景變數（由 data-* 控制） */
     --panel-bg: linear-gradient(0deg,rgba(43,37,37,1) 0%, rgba(0,0,0,1) 100%); /* 預設黑 */
 
-    /*//* --------第4頁：範例圖片尺寸/外觀（可自行調整；新增）--------*/*/
+    /*//* --------第4頁：範例圖片尺寸/外觀（可自行調整）--------*/*/
     --sample-gap: 10px;         /* 圖片之間的間距（可調） */
     --sample-max-h: 180px;      /* 圖片最大高度（可調） */
     --sample-pad: 8px;          /* 每張圖外框內距（可調） */
@@ -590,61 +590,62 @@
       </section>
 
       <!-- 第7頁：員工基本資料 -->
-      <section class="step" data-page="7" id="step-7">
-        <h2>📋 員工基本資料</h2>
-        <div class="row">
-          <label for="company">© 公司名稱 <small>⏍ 請確認後再行點選</small></label>
-          <select id="company">
-            <option value="" selected disabled>請選擇</option>
-            <option>Drunk Caffee 爛醉咖啡</option>
-            <option>FIZZ FIZZ.TEIPEI</option>
-            <option>Social Company 有趣人類社交局</option>
-          </select>
-          <div class="error" id="errcompany">⚠️ 尚未選擇公司</div>
-        </div>
+<section class="step" data-page="7" id="step-7">
+  <h2>📋 員工基本資料</h2>
 
-        <div class="row">
-          <label for="team">© 隸屬團隊 <small>⏍ 若不確定歸屬,請詢問面試主管後再行點選</small></label>
-          <select id="team">
-            <option value="" selected disabled>請選擇</option>
-            <option>外場-Serve Teams</option>
-            <option>吧檯-Bar Teams</option>
-            <option>內廚-Kitchen Teams</option>
-            <option>收銀-Cashier Teams</option>
-            <option>公關-Public Relations Teams</option>
-            <option>其他-Other</option>
-          </select>
-          <div class="error" id="errTeam">⚠️ 尚未選擇隸屬團隊</div>
-        </div>
+  <div class="row">
+    <label for="company">© 公司名稱 <small>⏍ 請確認後再行點選</small></label>
+    <select id="company">
+      <option value="" selected disabled>請選擇</option>
+      <option>Drunk Caffee 爛醉咖啡</option>
+      <option>FIZZ FIZZ.TEIPEI</option>
+      <option>Social Company 有趣人類社交局</option>
+    </select>
+    <div class="error" id="errcompany">⚠️ 尚未選擇公司</div>
+  </div>
 
-        <div class="row">
-          <label for="workType">© 工作型態 <small>⏍ 若不確定部門,請詢問面試主管後再行點選</small></label>
-          <select id="workType">
-            <option value="" selected disabled>請選擇</option>
-            <option>正職/全時工時-Full Time</option>
-            <option>兼職/部分工時-Part Time</option>
-          </select>
-          <div class="error" id="errWorkType">⚠️ 尚未選擇工作型態</div>
-        </div>
-      </section>
+  <div class="row">
+    <label for="team">© 隸屬團隊 <small>⏍ 若不確定歸屬,請詢問面試主管後再行點選</small></label>
+    <select id="team">
+      <option value="" selected disabled>請選擇</option>
+      <option>外場-Serve Teams</option>
+      <option>吧檯-Bar Teams</option>
+      <option>內廚-Kitchen Teams</option>
+      <option>收銀-Cashier Teams</option>
+      <option>公關-Public Relations Teams</option>
+      <option>其他-Other</option>
+    </select>
+    <div class="error" id="errTeam">⚠️ 尚未選擇隸屬團隊</div>
+  </div>
 
-      <div class="row">
-  <label for="fullName">© 本名</label>
-  <input id="fullName" type="text" placeholder="請輸入本名" />
-  <div class="error" id="errFullName">⚠️ 此欄位不得為空</div>
-</div>
+  <div class="row">
+    <label for="workType">© 工作型態 <small>⏍ 若不確定部門,請詢問面試主管後再行點選</small></label>
+    <select id="workType">
+      <option value="" selected disabled>請選擇</option>
+      <option>正職/全時工時-Full Time</option>
+      <option>兼職/部分工時-Part Time</option>
+    </select>
+    <div class="error" id="errWorkType">⚠️ 尚未選擇工作型態</div>
+  </div>
 
-<div class="row">
-  <label for="gender">© 性別 <small>⏍ 以身分證為主</small></label>
-  <select id="gender">
-    <option value="" selected disabled>請選擇</option>
-    <option>男</option>
-    <option>女</option>
-    <option>多元</option>
-  </select>
-  <div class="error" id="errGender">⚠️ 尚未選擇性別</div>
-</div>
-      
+  <div class="row">
+    <label for="fullName">© 本名</label>
+    <input id="fullName" type="text" placeholder="請輸入本名" />
+    <div class="error" id="errFullName">⚠️ 此欄位不得為空</div>
+  </div>
+
+  <div class="row">
+    <label for="gender">© 性別 <small>⏍ 以身分證為主</small></label>
+    <select id="gender">
+      <option value="" selected disabled>請選擇</option>
+      <option>男</option>
+      <option>女</option>
+      <option>多元</option>
+    </select>
+    <div class="error" id="errGender">⚠️ 尚未選擇性別</div>
+  </div>
+</section>
+  
       <!-- 第8頁：資料送出前-核檢區 -->
       <section class="step" data-page="8" id="step-8">
         <h2>　❗️資料送出前-核檢區</h2>
@@ -958,7 +959,7 @@ case 5: {
   const b = $("#team").value !== "";
   const c = $("#workType").value !== "";
 
-  /* ★ 新增：本名 & 性別 */
+  /* ★ 本名 & 性別 */
   const d = $("#fullName").value.trim() !== "";
   const e = $("#gender").value !== "";
 
@@ -967,12 +968,12 @@ case 5: {
     $("#errTeam").style.display = !b ? "block" : "none";
     $("#errWorkType").style.display = !c ? "block" : "none";
 
-    /* ★ 新增錯誤提示 */
+    /* ★ 錯誤提示 */
     $("#errFullName").style.display = !d ? "block" : "none";
     $("#errGender").style.display = !e ? "block" : "none";
   }
 
-  return a && b && c && d && e;   /* ★ 新增 d & e */
+  return a && b && c && d && e; 
 }
 
     /* ------ 第8頁：核檢 6 項 ------ */
@@ -1068,10 +1069,10 @@ function bindLiveValidation(){
     s.addEventListener('change', () => updateNavState())
   );
 
-  /* ★ 新增：本名（即時驗證） */
+  /* ★ 本名（即時驗證） */
   $("#fullName")?.addEventListener("input", () => updateNavState());
 
-  /* ★ 新增：性別（即時驗證） */
+  /* ★ 性別（即時驗證） */
   $("#gender")?.addEventListener("change", () => updateNavState());
 }
 
