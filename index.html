@@ -319,6 +319,21 @@
     color: var(--muted);
     text-align: center;
   }
+
+  /* ====== 第5頁圖片縮圖 + 檔名置中 ====== */
+  #step-5 .file-name {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* 水平置中縮圖 + 文字 */
+  text-align: center;    /* 文字置中 */
+  }
+
+  /* 縮圖本身置中（保險用） */
+  #step-5 .file-name .thumb {
+  display: block;
+  margin: 0 auto;
+  }
+
     
   /* ====== 登入遮罩樣式（沿用樣式當密碼鎖） ====== */
   .gate{ position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.75); display:flex; align-items:center; justify-content:center; }
@@ -613,9 +628,26 @@
         </div>
       </section>
 
+      <div class="row">
+  <label for="fullName">© 本名</label>
+  <input id="fullName" type="text" placeholder="請輸入本名" />
+  <div class="error" id="errFullName">⚠️ 此欄位不得為空</div>
+</div>
+
+<div class="row">
+  <label for="gender">© 性別 <small>⏍ 以身分證為主</small></label>
+  <select id="gender">
+    <option value="" selected disabled>請選擇</option>
+    <option>男</option>
+    <option>女</option>
+    <option>多元</option>
+  </select>
+  <div class="error" id="errGender">⚠️ 尚未選擇性別</div>
+</div>
+      
       <!-- 第8頁：資料送出前-核檢區 -->
       <section class="step" data-page="8" id="step-8">
-        <h2> 　　❗️資料送出前-核檢區</h2>
+        <h2>　❗️資料送出前-核檢區</h2>
         <div class="fieldset">
           <div class="checks">
             <label><input type="checkbox" id="preA"> 1. 以上輸入資料都進行雙重確認.</label>
@@ -775,8 +807,8 @@ let currentPage = 1;
 let IS_LOCKED = false;
 function pad2(n) { return String(n).padStart(2, '0'); }
 
-/* 指定頁為紫色：1, 2, 3, 4, 5 ；其餘黑色 */
-function pageIsPurple(n) { return [1, 2, 3, 4, 5].includes(n); }
+/* 指定頁為紫色：1, 2, 3, 4, 5, 8 ；其餘黑色 */
+function pageIsPurple(n) { return [1, 2, 3, 4, 5, 8].includes(n); }
 
 function updateHeaderStep() {
   $("#headerStep").textContent = `第${pad2(currentPage)}頁/共${TOTAL_STEPS}頁`;
@@ -886,18 +918,27 @@ function validatePage(n, submit=false){
       );
 
     /* ------ 第5頁：上傳檔案同意（需同意才可下一步） ------ */
-    case 5: {
-      const yes = $(`input[name="agreeUpload"][value="yes"]`).checked;
-      const no = $(`input[name="agreeUpload"][value="no"]`).checked;
+case 5: {
+  const yes = $(`input[name="agreeUpload"][value="yes"]`).checked;
+  const no  = $(`input[name="agreeUpload"][value="no"]`).checked;
 
-      if (!yes && submit) {
-        $("#errAgreeUpload").style.display = "block";
-      } else {
-        $("#errAgreeUpload").style.display = "none";
-      }
+  /* ★ 按「不同意」立即顯示錯誤 */
+  if (no) {
+    $("#errAgreeUpload").style.display = "block";
+  }
 
-      return yes;
-    }
+  /* ★ 按「同意」立即隱藏錯誤 */
+  if (yes) {
+    $("#errAgreeUpload").style.display = "none";
+  }
+
+  /* ★ 點下一步（submit=true）時，也要觸發一次 */
+  if (!yes && submit) {
+    $("#errAgreeUpload").style.display = "block";
+  }
+
+  return yes;
+}
 
     /* ------ 第6頁：上傳檔案（勞工體檢＋食品體檢必上傳） ------ */
     case 6: {
@@ -913,16 +954,26 @@ function validatePage(n, submit=false){
 
     /* ------ 第7頁：基本資料 ------ */
     case 7: {
-      const a = $("#company").value !== "";
-      const b = $("#team").value !== "";
-      const c = $("#workType").value !== "";
-      if (submit) {
-        $("#errcompany").style.display = !a ? "block" : "none";
-        $("#errTeam").style.display = !b ? "block" : "none";
-        $("#errWorkType").style.display = !c ? "block" : "none";
-      }
-      return a && b && c;
-    }
+  const a = $("#company").value !== "";
+  const b = $("#team").value !== "";
+  const c = $("#workType").value !== "";
+
+  /* ★ 新增：本名 & 性別 */
+  const d = $("#fullName").value.trim() !== "";
+  const e = $("#gender").value !== "";
+
+  if (submit) {
+    $("#errcompany").style.display = !a ? "block" : "none";
+    $("#errTeam").style.display = !b ? "block" : "none";
+    $("#errWorkType").style.display = !c ? "block" : "none";
+
+    /* ★ 新增錯誤提示 */
+    $("#errFullName").style.display = !d ? "block" : "none";
+    $("#errGender").style.display = !e ? "block" : "none";
+  }
+
+  return a && b && c && d && e;   /* ★ 新增 d & e */
+}
 
     /* ------ 第8頁：核檢 6 項 ------ */
     case 8:
@@ -1016,6 +1067,12 @@ function bindLiveValidation(){
   $$('select').forEach(s =>
     s.addEventListener('change', () => updateNavState())
   );
+
+  /* ★ 新增：本名（即時驗證） */
+  $("#fullName")?.addEventListener("input", () => updateNavState());
+
+  /* ★ 新增：性別（即時驗證） */
+  $("#gender")?.addEventListener("change", () => updateNavState());
 }
 
 /* 高度調整 */
