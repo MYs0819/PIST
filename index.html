@@ -2,8 +2,7 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
-  <======== 檔案用途：報到須知單前端（HTML/CSS/JS）======== >
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no" />
   <title>📑 報到須知單</title>
 
   <style>
@@ -1187,13 +1186,13 @@ function autoFitActionbarHeight(){
   const h = bar.offsetHeight;
   /* 【修復滾動】設置 actionbar 實際高度 */
   document.documentElement.style.setProperty('--actionbar-h', `${h}px`);
-  /* 【新增】強制 content 重新計算（解決邊緣無法滾到底問題） */
-  const content = $("#content");
+  /* 【移除-修復佈局】刪除強制重排程式碼，避免造成頁面頂部留白或閃爍 */
+  /* const content = $("#content");
   if (content) {
     content.style.overflowY = 'hidden';
-    content.offsetHeight; /* 觸發重排 */
+    content.offsetHeight; 
     content.style.overflowY = 'auto';
-  }
+  } */
 }
 (function observeBar(){
   const bar=$("#actionbar");
