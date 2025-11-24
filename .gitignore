@@ -1,8 +1,2 @@
-.vs/PIST/FileContentIndex/cf5c4550-7e29-4dd8-a225-0a3935318b79.vsidx
-.vs/PIST/v17/.wsuo
-.vs/PIST/v17/DocumentLayout.json
-.vs/ProjectSettings.json
-.vs/slnx.sqlite
-.vs/VSWorkspaceState.json
-.vs/PIST/FileContentIndex/35d1a3ae-88fa-4c60-8ab0-5d885bd8d253.vsidx
-.vs/PIST/FileContentIndex/5d5b6e58-1897-4c17-8521-af48f4d51014.vsidx
+.vs
+.vs/*
