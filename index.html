@@ -20,13 +20,13 @@
             --btn-bg: #bc2d2d; /* 按鈕底色（可調） */
             --btn-border: #2a2a2a; /* 按鈕邊框（可調） */
 
-            --title-size: 24px; /* 頁面標題字級（可調；每頁可覆蓋） */
-            --content-size: 12px; /* 內文/表單基準字級（可調；每頁可覆蓋） */
-            --footer-size: 11px; /* 頁尾字級（可調） */
+            --title-size: 24px; /* 上方頁面主標題字級（可調） */
+            --content-size: 15px; /* 密碼之確定、頁數、上下一頁（可調） */
+            --footer-size: 12px; /* 商標；版權（可調） */
 
             /* --------全域字級控制變數（可自行調整）--------*/
             --label-size: 15px; /* 欄位標題字級（例如：公司名稱；可調） */
-            --hint-size: 11.5px; /* 小字提示（label small；可調） */
+            --hint-size: 11px; /* 小字提示（label small；可調） */
             --input-size: 14px; /* 輸入框/選單內文字字級（可調） */
             --placeholder-size: 14px; /* placeholder 字級（可調） */
             --error-size: 14px; /* 錯誤訊息字級（可調） */
@@ -44,35 +44,69 @@
             --footer-h: 44px; /* 頁尾高度（可調） */
             --kv-offset: 0px; /* 鍵盤彈出時向上位移量（JS 寫入） */
 
-            /* --------選單字體大小調整（所有選單）-------- */
-            select {
+            /* -----------字級統整模組 同意；有異議----------- */
+            --fz-title: 28px; /* ★ 大標題（步驟名稱、頁面大標） */
+            --fz-subtitle: 22px; /* ★ 第二層標題（區塊名稱、子標題） */
+            --fz-section: 20px; /* ★ 區段說明（多用於段落標語、章節開場） */
+            --fz-body: 18px; /* ★ 內文正文（整份表單最常用的字） */
+            --fz-note: 16px; /* ★ 備註、小提示、條文（例如：就項了解 有異議） */
+            --fz-xs: 14px; /* ★ 特小字（很少用，通常是補充或版權） */
+
+            /* 上一頁/下一頁縮小用（可調） */
+            --nav-btn-min-h: 32px; /* 只影響「上一頁 / 下一頁」兩顆按鈕的最小高度（可調） */
+            --nav-btn-pad: 4px 10px; /* 只影響「上一頁 / 下一頁」兩顆按鈕的內距（可調） */
+
+            /* 操作列內距（可調，縮小整列高度） */
+            --actionbar-pad-y: 6px; /* 操作列上下內距（可調） */
+            --actionbar-pad-x: 12px; /* 操作列左右內距（可調） */
+
+            /* 面板背景變數（由 data-* 控制） */
+            --panel-bg: linear-gradient(0deg,rgba(43,37,37,1) 0%, rgba(0,0,0,1) 100%); /* 預設黑 */
+
+            /* --------第4頁：範例圖片尺寸/外觀（可自行調整）--------*/
+            --sample-gap: 10px; /* 圖片之間的間距（可調） */
+            --sample-max-h: 180px; /* 圖片最大高度（可調） */
+            --sample-pad: 8px; /* 每張圖外框內距（可調） */
+            --sample-bg: rgba(255,255,255,0.04); /* 圖片外框底色（可調） */
+            --sample-radius: 12px; /* 圖片外框圓角（可調） */
+        }
+
+        /* --------選單字體大小調整（所有選單）-------- */
+        select {
             font-size: 14px !important; /* 調小所有選單的字體 */
-            }
+        }
 
-        /* 上一頁/下一頁縮小用（可調） */
-        --nav-btn-min-h: 32px; /* 只影響「上一頁 / 下一頁」兩顆按鈕的最小高度（可調） */
-        --nav-btn-pad: 4px 10px; /* 只影響「上一頁 / 下一頁」兩顆按鈕的內距（可調） */
+        /* ----------統一字級------------ */
+        .fz-title {
+            font-size: var(--fz-title);
+        }
 
-        /* 操作列內距（可調，縮小整列高度） */
-        --actionbar-pad-y: 6px; /* 操作列上下內距（可調） */
-        --actionbar-pad-x: 12px; /* 操作列左右內距（可調） */
+        .fz-subtitle {
+            font-size: var(--fz-subtitle);
+        }
 
-        /* 面板背景變數（由 data-* 控制） */
-        --panel-bg: linear-gradient(0deg,rgba(43,37,37,1) 0%, rgba(0,0,0,1) 100%); /* 預設黑 */
+        .fz-section {
+            font-size: var(--fz-section);
+        }
 
-        /* --------第4頁：範例圖片尺寸/外觀（可自行調整）--------*/
-        --sample-gap: 10px; /* 圖片之間的間距（可調） */
-        --sample-max-h: 180px; /* 圖片最大高度（可調） */
-        --sample-pad: 8px; /* 每張圖外框內距（可調） */
-        --sample-bg: rgba(255,255,255,0.04); /* 圖片外框底色（可調） */
-        --sample-radius: 12px; /* 圖片外框圓角（可調） */
+        .fz-body {
+            font-size: var(--fz-body);
+        }
+
+        .fz-note {
+            font-size: var(--fz-note);
+        }
+
+        .fz-xs {
+            font-size: var(--fz-xs);
         }
 
         /* ===== 全站背景底色 ===== */
         html, body {
             height: 100%;
             margin: 0;
-            overflow-x: hidden;
+            /* overflow-x: hidden; */ /* 移除舊設定 */
+            overflow: hidden; /* 【關鍵修正】鎖定外部卷軸，只讓內部 Flex 滾動 */
         }
 
         body {
@@ -93,8 +127,8 @@
             border: 1px solid var(--border);
             border-radius: var(--radius);
             box-shadow: 0 12px 28px rgba(0,0,0,0.35);
-            display: grid;
-            grid-template-rows: auto 1fr auto auto; /* header / content / actionbar / footer */
+            display: flex;
+            flex-direction: column;
             overflow: hidden;
             background: var(--panel-bg) !important; /* 以變數為最終背景 */
         }
@@ -110,6 +144,7 @@
 
         /* 頁首（中間置中標題；右上角顯示步驟） */
         .header {
+            flex-shrink: 0; /* 【新增】防止被壓縮 */
             position: relative;
             padding: 12px 16px;
             border-bottom: 1px solid var(--border);
@@ -135,9 +170,12 @@
 
         /* 內容：只在此區滾動；底部預留操作列與頁尾高度 */
         .content {
+            flex: 1;
+            min-height: 0;
             padding: 16px;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
+            touch-action: pan-y; /* 【新增】強化 iOS 觸控判定 */
             padding-bottom: calc(var(--actionbar-h) + var(--footer-h) + 16px);
         }
 
@@ -159,13 +197,8 @@
             }
 
             /* 指定幾頁標題靠左（有驚嘆號那幾頁） */
-            .step[data-page="1"] h2,
-            .step[data-page="2"] h2,
-            .step[data-page="3"] h2,
-            .step[data-page="4"] h2,
-            .step[data-page="5"] h2,
-            .step[data-page="7"] h2,
-            .step[data-page="8"] h2 {
+            .step[data-page="1"] h2, .step[data-page="2"] h2, .step[data-page="3"] h2,
+            .step[data-page="4"] h2, .step[data-page="5"] h2, .step[data-page="7"] h2, .step[data-page="8"] h2 {
                 text-align: left !important;
             }
 
@@ -173,7 +206,7 @@
             margin: 8px 0 16px 1.2em;
             color: var(--muted);
             line-height: 1.7;
-            font-size: 18px !important;
+            font-size: 15px !important;
         }
 
             .note-list p {
@@ -351,6 +384,7 @@
 
         /* 底部固定操作列（全頁共用） */
         .actionbar {
+            flex-shrink: 0; /* 【新增】防止被壓縮 */
             position: relative;
             display: flex;
             gap: 10px;
@@ -385,6 +419,7 @@
 
         /* Sticky Footer（每頁都會看到） */
         .footer {
+            flex-shrink: 0; /* 【新增】防止被壓縮 */
             border-top: 1px solid var(--border);
             padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
             text-align: center;
@@ -395,15 +430,14 @@
             transform: translateY(calc(-1 * var(--kv-offset)));
         }
 
-        /* footer Logo商標；版權  */
         .footer-logo {
-            height: 25px; /* 想改大小可以改這裡px */
+            height: 25px;
             width: auto;
             vertical-align: middle;
             margin-right: 6px;
         }
 
-        /* 鍵盤開啟時：隱藏底部操作列，避免擋住視線 */
+        /* 鍵盤開啟時：隱藏底部操作列 */
         body.kb-open .actionbar {
             opacity: 0;
             pointer-events: none;
@@ -493,22 +527,19 @@
             text-align: center;
         }
 
-        /* ====== 第5頁圖片縮圖 + 檔名置中 ====== */
         #step-5 .file-name {
             display: flex;
             flex-direction: column;
-            align-items: center; /* 水平置中縮圖 + 文字 */
-            text-align: center; /* 文字置中 */
+            align-items: center;
+            text-align: center;
         }
 
-            /* 縮圖本身置中（保險用） */
             #step-5 .file-name .thumb {
                 display: block;
                 margin: 0 auto;
             }
 
-
-        /* ====== 登入遮罩樣式（沿用樣式當密碼鎖） ====== */
+        /* ====== 登入遮罩樣式 ====== */
         .gate {
             position: fixed;
             inset: 0;
@@ -537,7 +568,7 @@
         .gate p {
             margin: 6px 0;
             color: var(--muted);
-            font-size: 11px;
+            font-size: 14px;
             text-align: center;
         }
 
@@ -608,16 +639,17 @@
                 </ol>
 
                 <div class="fieldset center-block">
-                    <div style="font-weight:800;">是否了解上述注意事項</div>
-                    <div class="radio-row" role="radiogroup" aria-label="是否了解上述注意事項">
-                        <label><input type="radio" name="agree1" value="yes"> 了解</label>
-                        <label><input type="radio" name="agree1" value="no"> 有異議</label>
+                    <div class="fz-note" style="font-weight:800;">是否了解上述注意事項</div>
+                    <div class="radio-row fz-note" role="radiogroup" aria-label="是否了解上述注意事項">
+                        <label class="fz-note"><input type="radio" name="agree1" value="yes"> 了解</label>
+                        <label class="fz-note"><input type="radio" name="agree1" value="no"> 有異議</label>
                     </div>
-                    <div class="exit" id="exitMsg1">🚨 若有疑問,可詢問人資承辦...</div>
+                    <div class="exit fz-xs" id="exitMsg1">🚨 若有疑問,可詢問人資承辦...</div>
+
                 </div>
             </section>
 
-            <!-- 第2頁：FAQ（薪資轉帳＋體健檢報告＋報到文件用途） -->
+            <!-- 第2頁：FAQ（薪資轉帳+體健檢報告+報到文件用途） -->
             <section class="step" data-page="2" id="step-2">
                 <!-- FAQ-薪資轉帳相關 -->
                 <h2> 　　💰 FAQ-薪資轉帳相關</h2>
@@ -685,14 +717,14 @@
                 </ol>
 
                 <div class="fieldset center-block">
-                    <div style="font-weight:800;">是否了解上述 FAQ 與報到文件用途</div>
-                    <div class="radio-row" role="radiogroup" aria-label="是否了解上述 FAQ 與報到文件用途">
-                        <label><input type="radio" name="agree2" value="yes"> 了解</label>
-                        <label><input type="radio" name="agree2" value="no"> 有異議</label>
+                    <div class="fz-note" style="font-weight:800;">是否了解上述FAQ與報到文件用途</div>
+                    <div class="radio-row fz-note" role="radiogroup" aria-label="是否了解上述FAQ與報到文件用途">
+                        <label class="fz-note"><input type="radio" name="agree2" value="yes"> 了解</label>
+                        <label class="fz-note"><input type="radio" name="agree2" value="no"> 有異議</label>
                     </div>
-                    <div class="exit" id="exitMsg2">🚨 若有疑問,可詢問人資承辦...</div>
+                    <div class="exit fz-xs" id="exitMsg2">🚨 若有疑問,可詢問人資承辦...</div>
                 </div>
-            </section>
+</section>
 
             <!-- 第3頁：擁有文件 -->
             <section class="step" data-page="3" id="step-3">
@@ -770,10 +802,10 @@
                 <div class="fieldset" style="margin-top:16px;">
                     <div style="font-weight:800; margin-bottom:8px; text-align:center;">是否同意上述事項</div>
                     <div class="radio-row" role="radiogroup">
-                        <label><input type="radio" name="agreeUpload" value="yes"> 同意</label>
-                        <label><input type="radio" name="agreeUpload" value="no"> 不同意</label>
+                        <label class="fz-note"><input type="radio" name="agreeUpload" value="yes"> 同意</label>
+                        <label class="fz-note"><input type="radio" name="agreeUpload" value="no"> 不同意</label>
                     </div>
-                    <div class="error" id="errAgreeUpload" style="text-align:center;">⚠️ 需同意才能繼續填寫</div>
+                    <div class="exit fz-xs" id="errAgreeUpload" style="text-align:center;">⚠️ 需同意才能繼續填寫</div>
                 </div>
             </section>
 
@@ -921,7 +953,7 @@
             <div class="left-actions">
                 <button class="btn btn--nav" id="btnPrev" type="button">上一頁</button>
             </div>
-            <div class="right-actions" style="display:flex; gap:10px;">
+            <div class="right-actions" style="display:flex; gap:12px;">
                 <button class="btn btn--nav" id="btnNext" type="button">下一頁</button>
             </div>
         </div>
@@ -1048,7 +1080,7 @@
         function pageIsPurple(n) { return [1, 2, 3, 4, 5, 8].includes(n); }
 
         function updateHeaderStep() {
-            $("#headerStep").textContent = `第${pad2(currentPage)}頁/共${TOTAL_STEPS}頁`;
+            $("#headerStep").textContent = `第${pad2(currentPage)}頁/共${pad2{TOTAL_STEPS}頁`;
             const scheme = pageIsPurple(currentPage) ? "purple" : "black";
             $(".container").setAttribute("data-scheme", scheme);
         }
