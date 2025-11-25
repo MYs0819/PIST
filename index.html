@@ -8,66 +8,66 @@
     <style>
         :root {
             /* --------系統共用常數（可全站調整）-------- */
-            --card-w: 980px; /* 表單面板最大寬度（可調） */
-            --radius: 16px; /* 面板圓角（可調） */
-            --border: #2a2a2a; /* 邊框色（可調） */
-            --ink: #eaeaea; /* 主要文字色（可調） */
-            --muted: #bcbcbc; /* 次要文字色（與 ⏍ 同色） ← 依需求改這一行 */
-            --danger: #fff2cc; /* 錯誤色（可調；黃色） */
-            --ok: #22c55e; /* 成功/通過色（可調） */
-            --accent: #60a5fa; /* 重點色/聚焦邊框（可調） */
-            --btn-bg: #bc2d2d; /* 按鈕底色（可調） */
+            --card-w: 980px;       /* 表單面板最大寬度（可調） */
+            --radius: 16px;        /* 面板圓角（可調） */
+            --border: #2a2a2a;     /* 邊框色（可調） */
+            --ink: #eaeaea;        /* 主要文字色（可調） */
+            --muted: #bcbcbc;      /* 次要文字色（與 ⏍ 同色） ← 依需求改這一行 */
+            --danger: #fff2cc;     /* 錯誤色（可調；黃色） */
+            --ok: #22c55e;         /* 成功/通過色（可調） */
+            --accent: #60a5fa;     /* 重點色/聚焦邊框（可調） */
+            --btn-bg: #bc2d2d;     /* 按鈕底色（可調） */
             --btn-border: #2a2a2a; /* 按鈕邊框（可調） */
 
-            --title-size: 24px; /* 上方頁面主標題字級（可調） */
-            --content-size: 12px; /* 密碼之確定、頁數、上下一頁（可調） */
-            --footer-size: 12px; /* 商標；版權（可調） */
+            --title-size: 24px;    /* 上方頁面主標題字級（可調） */
+            --content-size: 12px;  /* 密碼之確定、頁數、上下一頁（可調） */
+            --footer-size: 12px;   /* 商標；版權（可調） */
 
             /* --------全域字級控制變數（可自行調整）--------*/
-            --label-size: 15px; /* 欄位標題字級（例如：公司名稱；可調） */
-            --hint-size: 11px; /* 小字提示（label small；可調） */
-            --input-size: 14px; /* 輸入框/選單內文字字級（可調） */
-            --placeholder-size: 14px; /* placeholder 字級（可調） */
-            --error-size: 14px; /* 錯誤訊息字級（可調） */
+            --label-size: 15px;        /* 欄位標題字級（例如：公司名稱；可調） */
+            --hint-size: 11px;         /* 小字提示（label small；可調） */
+            --input-size: 14px;        /* 輸入框/選單內文字字級（可調） */
+            --placeholder-size: 14px;  /* placeholder 字級（可調） */
+            --error-size: 14px;        /* 錯誤訊息字級（可調） */
 
-            --section-gap: 16px; /* 區塊與段落間距（可調） */
-            --control-pad: 10px 12px; /* 控制項內距（可調） */
-            --control-radius: 12px; /* 控制項圓角（可調） */
-            --control-bg: #0f0f0f; /* 控制項背景（可調） */
+            --section-gap: 16px;       /* 區塊與段落間距（可調） */
+            --control-pad: 10px 12px;  /* 控制項內距（可調） */
+            --control-radius: 12px;    /* 控制項圓角（可調） */
+            --control-bg: #0f0f0f;     /* 控制項背景（可調） */
             --control-border: #262626; /* 控制項邊框（可調） */
-            --control-focus: #60a5fa; /* 控制項聚焦外框色（可調） */
+            --control-focus: #60a5fa;  /* 控制項聚焦外框色（可調） */
 
-            --input-height: 38px; /* 控制項高度（讓框框同高；可調） */
+            --input-height: 38px;      /* 控制項高度（讓框框同高；可調） */
 
-            --actionbar-h: 64px; /* 底部固定操作列高度（可調；JS 覆蓋實際高度） */
-            --footer-h: 44px; /* 頁尾高度（可調） */
-            --kv-offset: 0px; /* 鍵盤彈出時向上位移量（JS 寫入） */
+            --actionbar-h: 64px;       /* 底部固定操作列高度（可調；JS 覆蓋實際高度） */
+            --footer-h: 44px;          /* 頁尾高度（可調） */
+            --kv-offset: 0px;          /* 鍵盤彈出時向上位移量（JS 寫入） */
 
             /* -----------字級統整模組 同意；有異議----------- */
-            --fz-title: 28px; /* ★ 大標題（步驟名稱、頁面大標） */
-            --fz-subtitle: 22px; /* ★ 第二層標題（區塊名稱、子標題） */
-            --fz-section: 20px; /* ★ 區段說明（多用於段落標語、章節開場） */
-            --fz-body: 18px; /* ★ 內文正文（整份表單最常用的字） */
-            --fz-note: 16px; /* ★ 備註、小提示、條文（例如：就項了解 有異議） */
-            --fz-xs: 14px; /* ★ 特小字（很少用，通常是補充或版權） */
+            --fz-title: 28px;          /* ★ 大標題（步驟名稱、頁面大標） */
+            --fz-subtitle: 22px;       /* ★ 第二層標題（區塊名稱、子標題） */
+            --fz-section: 20px;        /* ★ 區段說明（多用於段落標語、章節開場） */
+            --fz-body: 18px;           /* ★ 內文正文（整份表單最常用的字） */
+            --fz-note: 16px;           /* ★ 備註、小提示、條文（例如：了解 有異議） */
+            --fz-xs: 14px;             /* ★ 特小字（很少用，通常是補充或版權） */
 
             /* 上一頁/下一頁縮小用（可調） */
-            --nav-btn-min-h: 32px; /* 只影響「上一頁 / 下一頁」兩顆按鈕的最小高度（可調） */
-            --nav-btn-pad: 4px 10px; /* 只影響「上一頁 / 下一頁」兩顆按鈕的內距（可調） */
+            --nav-btn-min-h: 32px;     /* 只影響「上一頁 / 下一頁」兩顆按鈕的最小高度（可調） */
+            --nav-btn-pad: 4px 10px;   /* 只影響「上一頁 / 下一頁」兩顆按鈕的內距（可調） */
 
             /* 操作列內距（可調，縮小整列高度） */
-            --actionbar-pad-y: 6px; /* 操作列上下內距（可調） */
-            --actionbar-pad-x: 12px; /* 操作列左右內距（可調） */
+            --actionbar-pad-y: 6px;    /* 操作列上下內距（可調） */
+            --actionbar-pad-x: 12px;   /* 操作列左右內距（可調） */
 
             /* 面板背景變數（由 data-* 控制） */
             --panel-bg: linear-gradient(0deg,rgba(43,37,37,1) 0%, rgba(0,0,0,1) 100%); /* 預設黑 */
 
             /* --------第4頁：範例圖片尺寸/外觀（可自行調整）--------*/
-            --sample-gap: 10px; /* 圖片之間的間距（可調） */
-            --sample-max-h: 180px; /* 圖片最大高度（可調） */
-            --sample-pad: 8px; /* 每張圖外框內距（可調） */
+            --sample-gap: 10px;                  /* 圖片之間的間距（可調） */
+            --sample-max-h: 180px;               /* 圖片最大高度（可調） */
+            --sample-pad: 8px;                   /* 每張圖外框內距（可調） */
             --sample-bg: rgba(255,255,255,0.04); /* 圖片外框底色（可調） */
-            --sample-radius: 12px; /* 圖片外框圓角（可調） */
+            --sample-radius: 12px;               /* 圖片外框圓角（可調） */
         }
 
         /* --------選單字體大小調整（所有選單）-------- */
@@ -104,8 +104,7 @@
         html, body {
             height: 100%;
             margin: 0;
-            /* overflow-x: hidden; */ /* 移除舊設定 */
-            overflow: hidden; /* 【關鍵修正】鎖定外部卷軸，只讓內部 Flex 滾動 */
+            overflow: hidden; /* 鎖定外部卷軸，只讓內部 Flex 滾動 */
         }
 
         body {
@@ -118,7 +117,7 @@
             background: #000; /* 背景底色（面板漸層會覆蓋） */
         }
 
-        /* 面板（上下貼齊、內容內捲、固定底部操作列 + 頁尾） */
+        /* ===== 面板（上下貼齊、內容內捲、固定底部操作列 + 頁尾）===== */
         .container {
             width: min(var(--card-w), 100vw);
             height: 100svh; /* 使用 svh，受視口可視高度影響，鍵盤彈出更穩定 */
@@ -143,7 +142,7 @@
 
         /* 頁首（中間置中標題；右上角顯示步驟） */
         .header {
-            flex-shrink: 0; /* 【新增】防止被壓縮 */
+            flex-shrink: 0; /* 防止被壓縮 */
             position: relative;
             padding: 12px 16px;
             border-bottom: 1px solid var(--border);
@@ -167,14 +166,14 @@
             font-weight: 700;
         }
 
-        /* 內容：只在此區滾動；底部預留操作列與頁尾高度 */
+        /* =====只在此區滾動；底部預留操作列與頁尾高度 ===== */
         .content {
             flex: 1;
             min-height: 0;
             padding: 16px;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            touch-action: pan-y; /* 【新增】強化 iOS 觸控判定 */
+            touch-action: pan-y; /* 強化 iOS 觸控判定 */
             padding-bottom: calc(var(--actionbar-h) + var(--footer-h) + 16px);
         }
 
@@ -383,7 +382,7 @@
 
         /* 底部固定操作列（全頁共用） */
         .actionbar {
-            flex-shrink: 0; /* 【新增】防止被壓縮 */
+            flex-shrink: 0; /* 防止被壓縮 */
             position: relative;
             display: flex;
             gap: 10px;
@@ -418,7 +417,7 @@
 
         /* Sticky Footer（每頁都會看到） */
         .footer {
-            flex-shrink: 0; /* 【新增】防止被壓縮 */
+            flex-shrink: 0; /* 防止被壓縮 */
             border-top: 1px solid var(--border);
             padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
             text-align: center;
@@ -919,12 +918,12 @@
 
             <section class="step" data-page="9" id="step-9">
                 <h2>✅ 全數完成</h2>
-                <div style="text-align:center; line-height:1.8;">
+                <div class="fz-body" style="text-align:center; line-height:1.8;">
                     © 報到須知單
                     <hr style="border:0;border-top:1px solid var(--border);margin:10px 0;">
                     <div>❗️請截圖此畫面給承辦人</div>
                     <hr style="border:0;border-top:1px solid var(--border);margin:10px 0;">
-                    <div>系統已收到資料,將進入處理排程,表單已填寫完畢.</div>
+                    <div>系統已收到資料,將進入處理排程.</div>
                     <div style="margin-top:10px;color:var(--muted);font-size:11px;">
                         建立時間：<span id="stampCreated">—</span>　提交時間：<span id="stampUpdated">—</span>
                     </div>
@@ -954,7 +953,7 @@
         const $$ = (sel) => document.querySelectorAll(sel);
 
         /* ★★★ 這裡要貼您的 GAS 部署網址 ★★★ */
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbxb_L0jhcwMvQFVSsnzj13y9y97se_XtkL3ZfB6Sz7QMlj8ae3rc9OyzPGukYzL3h6Y/exec";
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbwjByQ24OL0RNhC52PGhvea5MMuN0KxHmtuhaAszkCMO_JbZiJUfAWk5a20VwxQhJsA/exec";
 
         /* 表單時間戳（建立/更新） */
         const FORM_META = { createdAt: null, updatedAt: null };
@@ -1065,7 +1064,6 @@
         function pageIsPurple(n) { return [1, 2, 3, 4, 5, 8].includes(n); }
 
         function updateHeaderStep() {
-            /* 【修正】修正語法錯誤：pad2{...} 改為 pad2(...) */
             $("#headerStep").textContent = `第${pad2(currentPage)}頁/共${pad2(TOTAL_STEPS)}頁`;
             const scheme = pageIsPurple(currentPage) ? "purple" : "black";
             $(".container").setAttribute("data-scheme", scheme);
@@ -1271,7 +1269,7 @@
                 btnNext.disabled = disabled;
             }
 
-            /* 【新增】第 8 頁專屬提交按鈕控制 */
+            /* 第 8 頁專屬提交按鈕控制 */
             if (currentPage === 8) {
                 const btnSubmit = $("#btnSubmit");
                 const valid8 = validatePage(8, false);
@@ -1282,7 +1280,7 @@
             }
         }
 
-        /* === 檔案轉 Base64 === */
+        /* === 檔案轉 Base64 (GitHub Webhook 模式專用) === */
         function fileToBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -1315,7 +1313,17 @@
             btn.disabled = true;
 
             // 1. 收集文字資料
+            // ownDocs 邏輯：收集 Page 3 的勾選項目
+            const ownDocs = [];
+            if ($('#ownChk1').checked) ownDocs.push('台新國際商業銀行');
+            if ($('#ownChk2').checked) ownDocs.push('中餐證照');
+            if ($('#ownChk3').checked) ownDocs.push('西餐證照');
+            if ($('#ownChk4').checked) ownDocs.push('AH&LA 證書');
+            const ownDocsStr = ownDocs.length > 0 ? ownDocs.join(', ') : '無';
+
             const payload = {
+                createdAt: FORM_META.createdAt ? fmtTW(FORM_META.createdAt) : '', // 傳送前端的建立時間
+                ownDocs: ownDocsStr, // 傳送擁有文件字串
                 company:  $("#company").value,
                 team:     $("#team").value,
                 workType: $("#workType").value,
@@ -1336,7 +1344,7 @@
                 if (f2) payload.fileLaborCheck = await fileToBase64(f2);
                 if (f3) payload.fileFoodCheck  = await fileToBase64(f3);
 
-                // 3. 發送 POST 請求 (no-cors 模式無法讀取回應，所以改用標準 CORS)
+                // 3. 發送 POST 請求 (CORS 模式)
                 // 注意：GAS 回傳必須是用 ContentService.createTextOutput
                 const response = await fetch(GAS_URL, {
                     method: "POST",
@@ -1349,7 +1357,7 @@
                     /* 成功 -> 前往第 9 頁（完成頁） */
                     showStep(9);
                 } else if (res.status === 'duplicate') {
-                    alert("❌ 提交失敗：本名重複，您可能已經填寫過。");
+                    alert("❌ 提交失敗,你/妳已經填寫過...");
                     btn.textContent = "提交";
                     btn.disabled = false;
                 } else {
