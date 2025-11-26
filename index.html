@@ -7,7 +7,7 @@
 
     <style>
         :root {
-            /* -----------GAS部署網址在957行----------- */
+            /* -----------GAS部署網址在956行----------- */
             /* --------系統共用常數（可全站調整）-------- */
             --card-w: 980px; /* 表單面板最大寬度（可調） */
             --radius: 16px; /* 面板圓角（可調） */
@@ -942,532 +942,532 @@
         </div>
 
         <footer class="footer" id="footer">
-            <img src="assets/MYs_logo_去背1.png" alt="MYs Logo" class="footer-logo">
+            <img src="assets/MYs_logo_去背.png" alt="MYs Logo" class="footer-logo">
             ︳© Copyright 2025 MYs System-b1.0.66-11-19~11-25
         </footer>
     </form>
 
-    <script>
-        /* --------系統常數（可調）-------- */
-        const TOTAL_STEPS = 9;  /* 總頁數（顯示用） */
-        const $ = (sel) => document.querySelector(sel);
-        const $$ = (sel) => document.querySelectorAll(sel);
+<script>
+    /* --------系統常數（可調）-------- */
+    const TOTAL_STEPS = 9;  /* 總頁數（顯示用） */
+    const $ = (sel) => document.querySelector(sel);
+    const $$ = (sel) => document.querySelectorAll(sel);
 
-        /* ★★★ GAS部署網址 WEBHOOK ★★★ */
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbwptYsUxW572V-UjYzA-qDCVVbyWhIm-HRx-QNgKvMO2v2Y_tEtntXzKNWDHG_NM9Sk/exec";
+    /* ★★★ GAS部署網址 WEBHOOK ★★★ */
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbwptYsUxW572V-UjYzA-qDCVVbyWhIm-HRx-QNgKvMO2v2Y_tEtntXzKNWDHG_NM9Sk/exec";
 
-        /* 表單時間戳（建立/更新） */
-        const FORM_META = { createdAt: null, updatedAt: null };
-        function fmtTW(d) {
-            try {
-                return new Intl.DateTimeFormat('zh-TW', {
-                    year: 'numeric', month: '2-digit', day: '2-digit',
-                    hour: '2-digit', minute: '2-digit', second: '2-digit',
-                    hour12: false, timeZone: 'Asia/Taipei'
-                }).format(d);
-            } catch (e) {
-                return d.toLocaleString();
-            }
+    /* 表單時間戳（建立/更新） */
+    const FORM_META = { createdAt: null, updatedAt: null };
+    function fmtTW(d) {
+        try {
+            return new Intl.DateTimeFormat('zh-TW', {
+                year: 'numeric', month: '2-digit', day: '2-digit',
+                hour: '2-digit', minute: '2-digit', second: '2-digit',
+                hour12: false, timeZone: 'Asia/Taipei'
+            }).format(d);
+        } catch (e) {
+            return d.toLocaleString();
         }
+    }
 
-        function setCreatedNow() {
-            if (!FORM_META.createdAt) {
-                FORM_META.createdAt = new Date();
-                updateStampUI();
-            }
-        }
-
-        function setUpdatedNow() {
-            FORM_META.updatedAt = new Date();
+    function setCreatedNow() {
+        if (!FORM_META.createdAt) {
+            FORM_META.createdAt = new Date();
             updateStampUI();
         }
+    }
 
-        function updateStampUI() {
-            const c = $("#stampCreated"), u = $("#stampUpdated");
-            if (c) { c.textContent = FORM_META.createdAt ? fmtTW(FORM_META.createdAt) : "—"; }
-            if (u) { u.textContent = FORM_META.updatedAt ? fmtTW(FORM_META.updatedAt) : "—"; }
-        }
+    function setUpdatedNow() {
+        FORM_META.updatedAt = new Date();
+        updateStampUI();
+    }
 
-        /* ====== 密碼進入遮罩 ====== */
-        const PASSWORDS = ["MYsDC20251115", "MYsFZ20251115", "MYsSC20251115"];
-        (function passGateInit() {
-            const gate = $("#passGate"),
-                pwd = $("#gatePwd"),
-                btn = $("#gatePwdStart"),
-                err = $("#gatePwdErr");
-            const togglePwdButton = $("#togglePwdVisibility");
+    function updateStampUI() {
+        const c = $("#stampCreated"), u = $("#stampUpdated");
+        if (c) { c.textContent = FORM_META.createdAt ? fmtTW(FORM_META.createdAt) : "—"; }
+        if (u) { u.textContent = FORM_META.updatedAt ? fmtTW(FORM_META.updatedAt) : "—"; }
+    }
 
-            if (!gate) return;
+    /* ====== 密碼進入遮罩 ====== */
+    const PASSWORDS = ["MYsDC20251115", "MYsFZ20251115", "MYsSC20251115"];
+    (function passGateInit() {
+        const gate = $("#passGate"),
+            pwd = $("#gatePwd"),
+            btn = $("#gatePwdStart"),
+            err = $("#gatePwdErr");
+        const togglePwdButton = $("#togglePwdVisibility");
 
-            let isPasswordVisible = false;
-            togglePwdButton.addEventListener("click", () => {
-                isPasswordVisible = !isPasswordVisible;
-                pwd.type = isPasswordVisible ? "text" : "password";
-                togglePwdButton.textContent = isPasswordVisible ? "隱藏密碼" : "顯示密碼";
-            });
+        if (!gate) return;
 
-            err.style.display = "none";
-            btn.addEventListener("click", () => {
-                const v = (pwd.value || "").trim().toLowerCase();
-                const isValid = PASSWORDS.some(pwd => pwd.toLowerCase() === v);
-
-                if (!isValid) {
-                    err.style.display = "block";
-                    return;
-                }
-
-                err.style.display = "none";
-                gate.style.display = "none";
-                setCreatedNow();
-                autoFitActionbarHeight();
-            });
-        })();
-
-        /* ====== 鍵盤與縮放控制（iOS） ====== */
-        (function keyboardLift() {
-            const vv = window.visualViewport;
-            if (!vv) return;
-
-            function apply() {
-                const bottomInset = (window.innerHeight - vv.height - vv.offsetTop);
-                document.documentElement.style.setProperty('--kv-offset', bottomInset > 0 ? `${bottomInset}px` : '0px');
-
-                if (bottomInset > 80) {
-                    document.body.classList.add('kb-open');
-                } else {
-                    document.body.classList.remove('kb-open');
-                }
-
-                autoFitActionbarHeight();
-            }
-
-            vv.addEventListener('resize', apply);
-            vv.addEventListener('scroll', apply);
-            window.addEventListener('resize', apply);
-            apply();
-        })();
-
-        /* 焦點自動可視（避免被鍵盤或操作列擋住） */
-        (function focusAutoScroll() {
-            document.addEventListener('focusin', (e) => {
-                const el = e.target;
-                if (!(el instanceof HTMLInputElement) && !(el instanceof HTMLSelectElement)) return;
-                setTimeout(() => { el.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 50);
-            });
-        })();
-
-        /* ====== 步驟顯示與背景配色 ====== */
-        let currentPage = 1;
-        let IS_LOCKED = false;
-        function pad2(n) { return String(n).padStart(2, '0'); }
-
-        /* 指定頁為紫色：1, 2, 3, 4, 5, 8 ；其餘黑色 */
-        function pageIsPurple(n) { return [1, 2, 3, 4, 5, 8].includes(n); }
-
-        function updateHeaderStep() {
-            $("#headerStep").textContent = `第${pad2(currentPage)}頁/共${pad2(TOTAL_STEPS)}頁`;
-            const scheme = pageIsPurple(currentPage) ? "purple" : "black";
-            $(".container").setAttribute("data-scheme", scheme);
-        }
-
-        function lockAllAndHideNav() {
-            IS_LOCKED = true;
-            document.querySelectorAll('input, select, button, textarea').forEach(el => { el.disabled = true; });
-            const prev = $("#btnPrev"), next = $("#btnNext");
-            if (prev) { prev.style.display = "none"; }
-            if (next) { next.style.display = "none"; }
-        }
-
-        function showStep(pageNumber) {
-            if (IS_LOCKED && pageNumber !== TOTAL_STEPS) return;
-
-            $$(".step").forEach(s => s.classList.remove("active"));
-            const el = document.getElementById(`step-${pageNumber}`);
-            if (el) el.classList.add("active");
-
-            currentPage = pageNumber;
-            updateHeaderStep();
-            $("#content").scrollTo({ top: 0, behavior: "instant" });
-            updateNavState();
-
-            if (pageNumber === TOTAL_STEPS) {
-                setUpdatedNow();
-                setTimeout(() => { lockAllAndHideNav(); updateNavState(); }, 0);
-            }
-        }
-
-        /* ====== 第 5 頁圖片縮小（恢復小圖片） ====== */
-        document.querySelectorAll("#step-5 .sample-img").forEach((img) => {
-            img.style.maxHeight = "160px";
-            img.style.objectFit = "contain";
+        let isPasswordVisible = false;
+        togglePwdButton.addEventListener("click", () => {
+            isPasswordVisible = !isPasswordVisible;
+            pwd.type = isPasswordVisible ? "text" : "password";
+            togglePwdButton.textContent = isPasswordVisible ? "隱藏密碼" : "顯示密碼";
         });
 
-        /* ====== 第 6 頁檔案預覽（PDF、圖片皆可） ====== */
-        function bindFilePreview(inputId, txtId, thumbId) {
-            const input = $(inputId);
-            const txt = $(txtId);
-            const thumb = $(thumbId);
+        err.style.display = "none";
+        btn.addEventListener("click", () => {
+            const v = (pwd.value || "").trim().toLowerCase();
+            const isValid = PASSWORDS.some(pwd => pwd.toLowerCase() === v);
 
-            input?.addEventListener("change", () => {
-                const file = input.files[0];
-
-                if (!file) {
-                    txt.textContent = "尚未選取檔案";
-                    thumb.style.display = "none";
-                    thumb.src = "";
-                    return;
-                }
-
-                txt.textContent = file.name;
-
-                if (file.type === "application/pdf") {
-                    thumb.src =
-                        "https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg";
-                    thumb.style.display = "block";
-                    return;
-                }
-
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    thumb.src = e.target.result;
-                    thumb.style.display = "block";
-                };
-                reader.readAsDataURL(file);
-            });
-        }
-
-        bindFilePreview("#idFront", "#nameFrontTxt", "#thumbFront");
-        bindFilePreview("#idLaborCheck", "#nameLaborCheckTxt", "#thumbLaborCheck");
-        bindFilePreview("#idFoodCheck", "#nameFoodCheckTxt", "#thumbFoodCheck");
-
-        /* ====== 各頁驗證（submit=false：不顯示紅字；true：顯示紅字） ====== */
-        function validatePage(n, submit = false) {
-            switch (n) {
-
-                /* ------ 第1頁：注意事項 ------ */
-                case 1: {
-                    const yes = $('input[name="agree1"][value="yes"]')?.checked;
-                    const no = $('input[name="agree1"][value="no"]')?.checked;
-                    $("#exitMsg1").classList.toggle("show", !!no);
-                    return !!yes;
-                }
-
-                /* ------ 第2頁：FAQ＋文件用途說明 ------ */
-                case 2: {
-                    const yes = $('input[name="agree2"][value="yes"]')?.checked;
-                    const no = $('input[name="agree2"][value="no"]')?.checked;
-                    $("#exitMsg2").classList.toggle("show", !!no);
-                    return !!yes;
-                }
-
-                /* ------ 第3頁：擁有文件（全部情況可下一步） ------ */
-                case 3: {
-                    return true;
-                }
-
-                /* ------ 第4頁：報到日必要繳交五大文件（需 5 個都打勾） ------ */
-                case 4:
-                    return [...$("#step-4").querySelectorAll("input[type=checkbox]")].every(
-                        (c) => c.checked
-                    );
-
-                /* ------ 第5頁：上傳檔案同意（需同意才可下一步） ------ */
-                case 5: {
-                    const yes = $(`input[name="agreeUpload"][value="yes"]`).checked;
-                    const no = $(`input[name="agreeUpload"][value="no"]`).checked;
-
-                    /* 按「不同意」立即顯示錯誤 */
-                    if (no) {
-                        $("#errAgreeUpload").style.display = "block";
-                    }
-
-                    /* 按「同意」立即隱藏錯誤 */
-                    if (yes) {
-                        $("#errAgreeUpload").style.display = "none";
-                    }
-
-                    /* 點下一步（submit=true）時，也要觸發一次 */
-                    if (!yes && submit) {
-                        $("#errAgreeUpload").style.display = "block";
-                    }
-
-                    return yes;
-                }
-
-                /* ------ 第6頁：上傳檔案（勞工體檢＋食品體檢必上傳） ------ */
-                case 6: {
-                    const labor = $("#idLaborCheck").files.length > 0;
-                    const food = $("#idFoodCheck").files.length > 0;
-                    const checks = ["#fileChk1", "#fileChk2", "#fileChk3", "#fileChk4"].every(
-                        (id) => $(id).checked
-                    );
-                    $("#errLaborCheck").style.display = !labor && submit ? "block" : "none";
-                    $("#errFoodCheck").style.display = !food && submit ? "block" : "none";
-                    return labor && food && checks;
-                }
-
-                /* ------ 第7頁：基本資料 ------ */
-                case 7: {
-                    const a = $("#company").value !== "";
-                    const b = $("#team").value !== "";
-                    const c = $("#workType").value !== "";
-
-                    /* 本名 & 性別 */
-                    const d = $("#fullName").value.trim() !== "";
-                    const e = $("#gender").value !== "";
-
-                    if (submit) {
-                        $("#errcompany").style.display = !a ? "block" : "none";
-                        $("#errTeam").style.display = !b ? "block" : "none";
-                        $("#errWorkType").style.display = !c ? "block" : "none";
-
-                        /* 錯誤提示 */
-                        $("#errFullName").style.display = !d ? "block" : "none";
-                        $("#errGender").style.display = !e ? "block" : "none";
-                    }
-
-                    return a && b && c && d && e; 
-                }
-
-                /* ------ 第8頁：核檢 6 項 ------ */
-                case 8:
-                    return ["#preA", "#preB", "#preC", "#preD", "#preE", "#preF"].every(
-                        (id) => $(id).checked
-                    );
-
-                /* ------ 第9頁：完成頁 ------ */
-                case 9:
-                    return true;
-            }
-            return false;
-        }
-
-        /* ====== 底部操作列：狀態控制 ====== */
-        function updateNavState() {
-            const btnPrev = $("#btnPrev"),
-                btnNext = $("#btnNext");
-
-            const onLast = currentPage === TOTAL_STEPS;
-
-            /* 上一頁按鈕 */
-            if (btnPrev) {
-                btnPrev.disabled = IS_LOCKED || currentPage <= 1;
-                btnPrev.style.display = onLast ? "none" : "inline-block";
-            }
-
-            /* 下一頁按鈕 */
-            if (btnNext) {
-                /* 【關鍵修正】在第 8 頁隱藏全域下一頁，改由提交按鈕控制 */
-                if (currentPage === 8) {
-                    btnNext.style.display = "none";
-                } else {
-                    btnNext.style.display = onLast ? "none" : "inline-block";
-                }
-
-                /* 驗證頁面 */
-                const validNow = validatePage(currentPage, false);
-                let disabled = IS_LOCKED || !validNow;
-                btnNext.disabled = disabled;
-            }
-
-            /* 第 8 頁專屬提交按鈕控制 */
-            if (currentPage === 8) {
-                const btnSubmit = $("#btnSubmit");
-                const valid8 = validatePage(8, false);
-                if (btnSubmit) {
-                    /* 六個勾選都有 -> 解鎖提交 */
-                    btnSubmit.disabled = !valid8;
-                }
-            }
-        }
-
-        /* === 檔案轉 Base64 (GitHub Webhook 模式專用) === */
-        function fileToBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => {
-                    // 移除 "data:image/png;base64," 前綴
-                    const base64 = reader.result.split(',')[1];
-                    resolve({
-                        name: file.name,
-                        mimeType: file.type,
-                        base64: base64
-                    });
-                };
-                reader.onerror = error => reject(error);
-            });
-        }
-
-        /* === 提交資料 (Webhook 模式) === */
-        async function submitData() {
-            const btn = $("#btnSubmit");
-            if (!btn) return;
-
-            if (GAS_URL.includes("請貼上")) {
-                alert("請先在程式碼中設定正確的 GAS_URL");
+            if (!isValid) {
+                err.style.display = "block";
                 return;
             }
 
-            /* 鎖定按鈕避免重複點擊 */
-            btn.textContent = "⏳ 資料傳送中...";
-            btn.disabled = true;
+            err.style.display = "none";
+            gate.style.display = "none";
+            setCreatedNow();
+            autoFitActionbarHeight();
+        });
+    })();
 
-            // 1. 收集文字資料
-            // ownDocs 邏輯：收集 Page 3 的勾選項目
-            const ownDocs = [];
-            if ($('#ownChk1').checked) ownDocs.push('台新國際商業銀行');
-            if ($('#ownChk2').checked) ownDocs.push('中餐證照');
-            if ($('#ownChk3').checked) ownDocs.push('西餐證照');
-            if ($('#ownChk4').checked) ownDocs.push('AH&LA 證書');
-            const ownDocsStr = ownDocs.length > 0 ? ownDocs.join(', ') : '無';
+    /* ====== 鍵盤與縮放控制（iOS） ====== */
+    (function keyboardLift() {
+        const vv = window.visualViewport;
+        if (!vv) return;
 
-            const payload = {
-                createdAt: FORM_META.createdAt ? fmtTW(FORM_META.createdAt) : '', // 傳送前端的建立時間
-                ownDocs: ownDocsStr, // 傳送擁有文件字串
-                company:  $("#company").value,
-                team:     $("#team").value,
-                workType: $("#workType").value,
-                fullName: $("#fullName").value,
-                gender:   $("#gender").value,
-                fileFront: null,
-                fileLaborCheck: null,
-                fileFoodCheck: null
+        function apply() {
+            const bottomInset = (window.innerHeight - vv.height - vv.offsetTop);
+            document.documentElement.style.setProperty('--kv-offset', bottomInset > 0 ? `${bottomInset}px` : '0px');
+
+            if (bottomInset > 80) {
+                document.body.classList.add('kb-open');
+            } else {
+                document.body.classList.remove('kb-open');
+            }
+
+            autoFitActionbarHeight();
+        }
+
+        vv.addEventListener('resize', apply);
+        vv.addEventListener('scroll', apply);
+        window.addEventListener('resize', apply);
+        apply();
+    })();
+
+    /* 焦點自動可視（避免被鍵盤或操作列擋住） */
+    (function focusAutoScroll() {
+        document.addEventListener('focusin', (e) => {
+            const el = e.target;
+            if (!(el instanceof HTMLInputElement) && !(el instanceof HTMLSelectElement)) return;
+            setTimeout(() => { el.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 50);
+        });
+    })();
+
+    /* ====== 步驟顯示與背景配色 ====== */
+    let currentPage = 1;
+    let IS_LOCKED = false;
+    function pad2(n) { return String(n).padStart(2, '0'); }
+
+    /* 指定頁為紫色：1, 2, 3, 4, 5, 8 ；其餘黑色 */
+    function pageIsPurple(n) { return [1, 2, 3, 4, 5, 8].includes(n); }
+
+    function updateHeaderStep() {
+        $("#headerStep").textContent = `第${pad2(currentPage)}頁/共${pad2(TOTAL_STEPS)}頁`;
+        const scheme = pageIsPurple(currentPage) ? "purple" : "black";
+        $(".container").setAttribute("data-scheme", scheme);
+    }
+
+    function lockAllAndHideNav() {
+        IS_LOCKED = true;
+        document.querySelectorAll('input, select, button, textarea').forEach(el => { el.disabled = true; });
+        const prev = $("#btnPrev"), next = $("#btnNext");
+        if (prev) { prev.style.display = "none"; }
+        if (next) { next.style.display = "none"; }
+    }
+
+    function showStep(pageNumber) {
+        if (IS_LOCKED && pageNumber !== TOTAL_STEPS) return;
+
+        $$(".step").forEach(s => s.classList.remove("active"));
+        const el = document.getElementById(`step-${pageNumber}`);
+        if (el) el.classList.add("active");
+
+        currentPage = pageNumber;
+        updateHeaderStep();
+        $("#content").scrollTo({ top: 0, behavior: "instant" });
+        updateNavState();
+
+        if (pageNumber === TOTAL_STEPS) {
+            setUpdatedNow();
+            setTimeout(() => { lockAllAndHideNav(); updateNavState(); }, 0);
+        }
+    }
+
+    /* ====== 第 5 頁圖片縮小（恢復小圖片） ====== */
+    document.querySelectorAll("#step-5 .sample-img").forEach((img) => {
+        img.style.maxHeight = "160px";
+        img.style.objectFit = "contain";
+    });
+
+    /* ====== 第 6 頁檔案預覽（PDF、圖片皆可） ====== */
+    function bindFilePreview(inputId, txtId, thumbId) {
+        const input = $(inputId);
+        const txt = $(txtId);
+        const thumb = $(thumbId);
+
+        input?.addEventListener("change", () => {
+            const file = input.files[0];
+
+            if (!file) {
+                txt.textContent = "尚未選取檔案";
+                thumb.style.display = "none";
+                thumb.src = "";
+                return;
+            }
+
+            txt.textContent = file.name;
+
+            if (file.type === "application/pdf") {
+                thumb.src =
+                    "https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg";
+                thumb.style.display = "block";
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                thumb.src = e.target.result;
+                thumb.style.display = "block";
             };
+            reader.readAsDataURL(file);
+        });
+    }
 
-            // 2. 處理檔案 (轉 Base64)
-            try {
-                const f1 = $("#idFront").files[0];
-                const f2 = $("#idLaborCheck").files[0];
-                const f3 = $("#idFoodCheck").files[0];
+    bindFilePreview("#idFront", "#nameFrontTxt", "#thumbFront");
+    bindFilePreview("#idLaborCheck", "#nameLaborCheckTxt", "#thumbLaborCheck");
+    bindFilePreview("#idFoodCheck", "#nameFoodCheckTxt", "#thumbFoodCheck");
 
-                if (f1) payload.fileFront       = await fileToBase64(f1);
-                if (f2) payload.fileLaborCheck = await fileToBase64(f2);
-                if (f3) payload.fileFoodCheck  = await fileToBase64(f3);
+    /* ====== 各頁驗證（submit=false：不顯示紅字；true：顯示紅字） ====== */
+    function validatePage(n, submit = false) {
+        switch (n) {
 
-                // 3. 發送 POST 請求 (CORS 模式)
-                // 注意：GAS 回傳必須是用 ContentService.createTextOutput
-                const response = await fetch(GAS_URL, {
-                    method: "POST",
-                    body: JSON.stringify(payload)
-                });
+            /* ------ 第1頁：注意事項 ------ */
+            case 1: {
+                const yes = $('input[name="agree1"][value="yes"]')?.checked;
+                const no = $('input[name="agree1"][value="no"]')?.checked;
+                $("#exitMsg1").classList.toggle("show", !!no);
+                return !!yes;
+            }
 
-                const res = await response.json();
+            /* ------ 第2頁：FAQ＋文件用途說明 ------ */
+            case 2: {
+                const yes = $('input[name="agree2"][value="yes"]')?.checked;
+                const no = $('input[name="agree2"][value="no"]')?.checked;
+                $("#exitMsg2").classList.toggle("show", !!no);
+                return !!yes;
+            }
 
-                if (res.status === 'ok') {
-                    /* 成功 -> 前往第 9 頁（完成頁） */
-                    showStep(9);
-                } else if (res.status === 'duplicate') {
-                    alert("❌ 提交失敗,你/妳已經填寫過...");
-                    btn.textContent = "提交";
-                    btn.disabled = false;
-                } else {
-                    alert("❌ 錯誤," + (res.message || "未知原因"));
-                    btn.textContent = "提交";
-                    btn.disabled = false;
+            /* ------ 第3頁：擁有文件（全部情況可下一步） ------ */
+            case 3: {
+                return true;
+            }
+
+            /* ------ 第4頁：報到日必要繳交五大文件（需 5 個都打勾） ------ */
+            case 4:
+                return [...$("#step-4").querySelectorAll("input[type=checkbox]")].every(
+                    (c) => c.checked
+                );
+
+            /* ------ 第5頁：上傳檔案同意（需同意才可下一步） ------ */
+            case 5: {
+                const yes = $(`input[name="agreeUpload"][value="yes"]`).checked;
+                const no = $(`input[name="agreeUpload"][value="no"]`).checked;
+
+                /* 按「不同意」立即顯示錯誤 */
+                if (no) {
+                    $("#errAgreeUpload").style.display = "block";
                 }
 
-            } catch (err) {
-                alert("⚠️ 傳送失敗,請聯繫人資承辦...");
-                console.error(err);
-                btn.textContent = "提交";
-                btn.disabled = false;
+                /* 按「同意」立即隱藏錯誤 */
+                if (yes) {
+                    $("#errAgreeUpload").style.display = "none";
+                }
+
+                /* 點下一步（submit=true）時，也要觸發一次 */
+                if (!yes && submit) {
+                    $("#errAgreeUpload").style.display = "block";
+                }
+
+                return yes;
+            }
+
+            /* ------ 第6頁：上傳檔案（勞工體檢＋食品體檢必上傳） ------ */
+            case 6: {
+                const labor = $("#idLaborCheck").files.length > 0;
+                const food = $("#idFoodCheck").files.length > 0;
+                const checks = ["#fileChk1", "#fileChk2", "#fileChk3", "#fileChk4"].every(
+                    (id) => $(id).checked
+                );
+                $("#errLaborCheck").style.display = !labor && submit ? "block" : "none";
+                $("#errFoodCheck").style.display = !food && submit ? "block" : "none";
+                return labor && food && checks;
+            }
+
+            /* ------ 第7頁：基本資料 ------ */
+            case 7: {
+                const a = $("#company").value !== "";
+                const b = $("#team").value !== "";
+                const c = $("#workType").value !== "";
+
+                /* 本名 & 性別 */
+                const d = $("#fullName").value.trim() !== "";
+                const e = $("#gender").value !== "";
+
+                if (submit) {
+                    $("#errcompany").style.display = !a ? "block" : "none";
+                    $("#errTeam").style.display = !b ? "block" : "none";
+                    $("#errWorkType").style.display = !c ? "block" : "none";
+
+                    /* 錯誤提示 */
+                    $("#errFullName").style.display = !d ? "block" : "none";
+                    $("#errGender").style.display = !e ? "block" : "none";
+                }
+
+                return a && b && c && d && e; 
+            }
+
+            /* ------ 第8頁：核檢 6 項 ------ */
+            case 8:
+                return ["#preA", "#preB", "#preC", "#preD", "#preE", "#preF"].every(
+                    (id) => $(id).checked
+                );
+
+            /* ------ 第9頁：完成頁 ------ */
+            case 9:
+                return true;
+        }
+        return false;
+    }
+
+    /* ====== 底部操作列：狀態控制 ====== */
+    function updateNavState() {
+        const btnPrev = $("#btnPrev"),
+            btnNext = $("#btnNext");
+
+        const onLast = currentPage === TOTAL_STEPS;
+
+        /* 上一頁按鈕 */
+        if (btnPrev) {
+            btnPrev.disabled = IS_LOCKED || currentPage <= 1;
+            btnPrev.style.display = onLast ? "none" : "inline-block";
+        }
+
+        /* 下一頁按鈕 */
+        if (btnNext) {
+            /* 【關鍵修正】在第 8 頁隱藏全域下一頁，改由提交按鈕控制 */
+            if (currentPage === 8) {
+                btnNext.style.display = "none";
+            } else {
+                /* 其他頁面：若未完成驗證則隱藏，完成則顯示 */
+                const validNow = validatePage(currentPage, false);
+                btnNext.style.display = (onLast || !validNow) ? "none" : "inline-block";
+                /* 這裡額外加一個保險，確保隱藏時也禁用 */
+                btnNext.disabled = IS_LOCKED || !validNow;
             }
         }
 
-        /* ====== 事件綁定 ====== */
-        function bindLiveValidation() {
-
-            /* 第1頁：了解 / 有異議 */
-            $$('input[name="agree1"]').forEach(r =>
-                r.addEventListener('change', () => {
-                    updateNavState();
-                })
-            );
-
-            /* 第2頁：了解 / 有異議 */
-            $$('input[name="agree2"]').forEach(r =>
-                r.addEventListener('change', () => {
-                    updateNavState();
-                })
-            );
-
-            /* 第5頁：上傳檔案同意 */
-            $$('input[name="agreeUpload"]').forEach(r =>
-                r.addEventListener('change', () => {
-                    updateNavState();
-                })
-            );
-
-            /* 所有 checkbox（第3、4、6、8頁等） */
-            $$('input[type="checkbox"]').forEach(c =>
-                c.addEventListener('change', () => updateNavState())
-            );
-
-            /* 上傳檔案 */
-            $$('input[type="file"]').forEach(f =>
-                f.addEventListener('change', () => updateNavState())
-            );
-
-            /* 基本資料 select */
-            $$('select').forEach(s =>
-                s.addEventListener('change', () => updateNavState())
-            );
-
-            /* ★ 本名（即時驗證） */
-            $("#fullName")?.addEventListener("input", () => updateNavState());
-
-            /* ★ 性別（即時驗證） */
-            $("#gender")?.addEventListener("change", () => updateNavState());
-
-            /* ★ 提交按鈕（第 8 頁） */
-            $("#btnSubmit")?.addEventListener("click", () => {
-                submitData();
-            });
+        /* 第 8 頁專屬提交按鈕控制 */
+        if (currentPage === 8) {
+            const btnSubmit = $("#btnSubmit");
+            const valid8 = validatePage(8, false);
+            if (btnSubmit) {
+                /* 六個勾選都有 -> 解鎖提交 */
+                btnSubmit.disabled = !valid8;
+            }
         }
+    }
 
-        /* 高度調整 */
-        function autoFitActionbarHeight() {
-            const bar = $("#actionbar"); if (!bar) return;
-            const h = bar.offsetHeight;
-            document.documentElement.style.setProperty('--actionbar-h', `${h}px`);
-        }
-        (function observeBar() {
-            const bar = $("#actionbar");
-            const footer = $("#footer");
-            if (!bar || !('ResizeObserver' in window)) return;
-            
-            const ro = new ResizeObserver(() => autoFitActionbarHeight());
-            ro.observe(bar);
-        })();
-
-        /* ====== 導航按鈕 ====== */
-        function bindActionBar() {
-            $("#btnPrev").addEventListener("click", () => {
-                if (!IS_LOCKED && currentPage > 1) {
-                    showStep(currentPage - 1);
-                }
-            });
-
-            $("#btnNext").addEventListener("click", () => {
-                if (IS_LOCKED) return;
-
-                const ok = validatePage(currentPage, true);
-                if (ok && currentPage < TOTAL_STEPS) {
-                    setUpdatedNow();
-                    showStep(currentPage + 1);
-                }
-            });
-        }
-
-        /* ====== 初始化 ====== */
-        document.addEventListener("DOMContentLoaded", () => {
-            showStep(1);
-            bindLiveValidation();
-            bindActionBar();
-            autoFitActionbarHeight();
-            updateStampUI();
+    /* === 檔案轉 Base64 (GitHub Webhook 模式專用) === */
+    function fileToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                // 移除 "data:image/png;base64," 前綴
+                const base64 = reader.result.split(',')[1];
+                resolve({
+                    name: file.name,
+                    mimeType: file.type,
+                    base64: base64
+                });
+            };
+            reader.onerror = error => reject(error);
         });
-    </script>
+    }
+
+    /* === 提交資料 (Webhook 模式) === */
+    async function submitData() {
+        const btn = $("#btnSubmit");
+        if (!btn) return;
+
+        if (GAS_URL.includes("請貼上")) {
+            alert("請先在程式碼中設定正確的 GAS_URL");
+            return;
+        }
+
+        /* 鎖定按鈕避免重複點擊 */
+        const originalText = btn.textContent;
+        btn.textContent = "⏳ 資料傳送中...";
+        btn.disabled = true;
+
+        // 1. 收集文字資料
+        // ownDocs 邏輯：收集 Page 3 的勾選項目
+        const ownDocs = [];
+        if ($('#ownChk1').checked) ownDocs.push('台新國際商業銀行');
+        if ($('#ownChk2').checked) ownDocs.push('中餐證照');
+        if ($('#ownChk3').checked) ownDocs.push('西餐證照');
+        if ($('#ownChk4').checked) ownDocs.push('AH&LA 證書');
+        const ownDocsStr = ownDocs.length > 0 ? ownDocs.join(', ') : '無';
+
+        const payload = {
+            formType: "laborReport", /* 注意：這裡若為報到須知，可能需要改為 originalForm 或 laborReport，請確認您的 GAS 接收端 */
+            createdAt: FORM_META.createdAt ? fmtTW(FORM_META.createdAt) : '', // 傳送前端的建立時間
+            ownDocs: ownDocsStr, // 傳送擁有文件字串
+            company:  $("#company").value,
+            team:     $("#team").value,
+            workType: $("#workType").value,
+            fullName: $("#fullName").value,
+            gender:   $("#gender").value,
+            fileFront: null,
+            fileLaborCheck: null,
+            fileFoodCheck: null
+        };
+
+        // 2. 處理檔案 (轉 Base64)
+        try {
+            const f1 = $("#idFront").files[0];
+            const f2 = $("#idLaborCheck").files[0];
+            const f3 = $("#idFoodCheck").files[0];
+
+            if (f1) payload.fileFront        = await fileToBase64(f1);
+            if (f2) payload.fileLaborCheck = await fileToBase64(f2);
+            if (f3) payload.fileFoodCheck  = await fileToBase64(f3);
+
+            // 3. 發送 POST 請求 (CORS 模式)
+            const response = await fetch(GAS_URL, {
+                method: "POST",
+                body: JSON.stringify(payload)
+            });
+
+            const res = await response.json();
+
+            if (res.status === 'ok') {
+                /* 成功 -> 前往第 9 頁（完成頁） */
+                showStep(9);
+            } else if (res.status === 'duplicate') {
+                alert("❌ 提交失敗,你/妳已經填寫過...");
+                btn.textContent = originalText;
+                btn.disabled = false;
+            } else {
+                alert("❌ 錯誤," + (res.message || "未知原因"));
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+
+        } catch (err) {
+            alert("⚠️ 傳送失敗,請聯繫人資承辦...");
+            console.error(err);
+            btn.textContent = originalText;
+            btn.disabled = false;
+        }
+    }
+
+    /* ====== 事件綁定 ====== */
+    function bindLiveValidation() {
+
+        /* 第1頁：了解 / 有異議 */
+        $$('input[name="agree1"]').forEach(r =>
+            r.addEventListener('change', () => {
+                updateNavState();
+            })
+        );
+
+        /* 第2頁：了解 / 有異議 */
+        $$('input[name="agree2"]').forEach(r =>
+            r.addEventListener('change', () => {
+                updateNavState();
+            })
+        );
+
+        /* 第5頁：上傳檔案同意 */
+        $$('input[name="agreeUpload"]').forEach(r =>
+            r.addEventListener('change', () => {
+                updateNavState();
+            })
+        );
+
+        /* 所有 checkbox（第3、4、6、8頁等） */
+        $$('input[type="checkbox"]').forEach(c =>
+            c.addEventListener('change', () => updateNavState())
+        );
+
+        /* 上傳檔案 */
+        $$('input[type="file"]').forEach(f =>
+            f.addEventListener('change', () => updateNavState())
+        );
+
+        /* 基本資料 select */
+        $$('select').forEach(s =>
+            s.addEventListener('change', () => updateNavState())
+        );
+
+        /* ★ 本名（即時驗證） */
+        $("#fullName")?.addEventListener("input", () => updateNavState());
+
+        /* ★ 性別（即時驗證） */
+        $("#gender")?.addEventListener("change", () => updateNavState());
+
+        /* ★ 提交按鈕（第 8 頁） */
+        $("#btnSubmit")?.addEventListener("click", () => {
+            submitData();
+        });
+    }
+
+    /* 高度調整 */
+    function autoFitActionbarHeight() {
+        const bar = $("#actionbar"); if (!bar) return;
+        const h = bar.offsetHeight;
+        document.documentElement.style.setProperty('--actionbar-h', `${h}px`);
+    }
+    (function observeBar() {
+        const bar = $("#actionbar");
+        const footer = $("#footer");
+        if (!bar || !('ResizeObserver' in window)) return;
+        
+        const ro = new ResizeObserver(() => autoFitActionbarHeight());
+        ro.observe(bar);
+    })();
+
+    /* ====== 導航按鈕 ====== */
+    function bindActionBar() {
+        $("#btnPrev").addEventListener("click", () => {
+            if (!IS_LOCKED && currentPage > 1) {
+                showStep(currentPage - 1);
+            }
+        });
+
+        $("#btnNext").addEventListener("click", () => {
+            if (IS_LOCKED) return;
+
+            const ok = validatePage(currentPage, true);
+            if (ok && currentPage < TOTAL_STEPS) {
+                setUpdatedNow();
+                showStep(currentPage + 1);
+            }
+        });
+    }
+
+    /* ====== 初始化 ====== */
+    document.addEventListener("DOMContentLoaded", () => {
+        showStep(1);
+        bindLiveValidation();
+        bindActionBar();
+        autoFitActionbarHeight();
+        updateStampUI();
+    });
+</script>
 </body>
 </html>
