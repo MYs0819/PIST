@@ -7,13 +7,13 @@
 
     <style>
         :root {
-            /* -----------GAS部署網址在954行----------- */
+            /* -----------GAS部署網址在955行----------- */
             /* --------系統共用常數（可全站調整）-------- */
             --card-w: 980px; /* 表單面板最大寬度（可調） */
             --radius: 16px; /* 面板圓角（可調） */
             --border: #2a2a2a; /* 邊框色（可調） */
             --ink: #eaeaea; /* 主要文字色（可調） */
-            --muted: #bcbcbc; /* 次要文字色（與 ⏍ 同色） ← 依需求改這一行 */
+            --muted: #959595; /* 次要文字色（與 ⏍ 同色） */
             --danger: #fff2cc; /* 錯誤色（可調；黃色） */
             --ok: #22c55e; /* 成功/通過色（可調） */
             --accent: #60a5fa; /* 重點色/聚焦邊框（可調） */
@@ -840,7 +840,7 @@
                         <label><input type="checkbox" id="fileChk4"> 4. 上述都已確認完成動作</label>
                     </div>
                     <div class="note-list" style="margin-left:0;">
-                        📣 如須上傳PDF檔，請先轉成JPG檔後再上傳
+                        📣 若無台新銀行戶頭，可不用上傳
                     </div>
                 </div>
             </section>
@@ -941,7 +941,7 @@
 
         <footer class="footer" id="footer">
             <img src="assets/MYs_logo_去背.png" alt="MYs Logo" class="footer-logo">
-            ︳© Copyright 2025 MYs System-b1.0.80-11/19~11/28
+            ︳© Copyright 2025 MYs System-b1.0.81-11/19~11/28
         </footer>
     </form>
 
@@ -952,7 +952,7 @@
     const $$ = (sel) => document.querySelectorAll(sel);
 
     /* ★★★ GAS部署網址 WEBHOOK ★★★ */
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbyncVzIPUAQ4U9Mx_ahlGX-wCFwVAIr9hyXYf7LIAhJ-kNwrwwCrzBA3fP4Litq_bQ/exec";
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbzh52JEiM6kXZXuqcbl9odP--vIZZLAeMbirH7BgW6mnSA2p0PELGJh4yITXJz1ahbA/exec";
 
     /* 表單時間戳（建立/更新） */
     const FORM_META = { createdAt: null, updatedAt: null };
